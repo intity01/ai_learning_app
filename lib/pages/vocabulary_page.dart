@@ -320,9 +320,12 @@ class VocabularyPage extends StatelessWidget {
               item['word']!,
               style: GoogleFonts.kanit(fontWeight: FontWeight.bold, fontSize: 18, color: const Color(0xFF2B3445)),
             ),
-            subtitle: Text(
-              "${item['romaji']} • ${item['meaning']}",
-              style: GoogleFonts.kanit(color: Colors.grey[600], fontSize: 12),
+            subtitle: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                "${item['romaji']} • ${lang == 'en' ? (item['meaning_en'] ?? item['meaning']) : item['meaning']}",
+                style: GoogleFonts.kanit(color: Colors.grey[600], fontSize: 12),
+              ),
             ),
             trailing: IconButton(
               icon: const Icon(Icons.delete_outline_rounded, color: Colors.redAccent),

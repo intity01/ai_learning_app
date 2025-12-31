@@ -54,18 +54,43 @@ class UserData {
 
   // Default Vocabulary List (Factory Settings)
   static const List<Map<String, dynamic>> _defaultVocab = [
-    {'word': 'こんにちは', 'meaning': 'สวัสดี', 'romaji': 'Konnichiwa', 'tag': 'Greeting', 'isCustom': false, 'lessonId': 1},
-    {'word': 'ありがとう', 'meaning': 'ขอบคุณ', 'romaji': 'Arigatou', 'tag': 'Basic', 'isCustom': false, 'lessonId': 1},
-    {'word': 'さようなら', 'meaning': 'ลาก่อน', 'romaji': 'Sayounara', 'tag': 'Basic', 'isCustom': false, 'lessonId': 1},
-    {'word': '私 (Watashi)', 'meaning': 'ฉัน/ผม', 'romaji': 'Watashi', 'tag': 'Pronoun', 'isCustom': false, 'lessonId': 2},
-    {'word': '名前 (Namae)', 'meaning': 'ชื่อ', 'romaji': 'Namae', 'tag': 'Noun', 'isCustom': false, 'lessonId': 2},
-    {'word': '一 (Ichi)', 'meaning': 'หนึ่ง', 'romaji': 'Ichi', 'tag': 'Number', 'isCustom': false, 'lessonId': 3},
-    {'word': '二 (Ni)', 'meaning': 'สอง', 'romaji': 'Ni', 'tag': 'Number', 'isCustom': false, 'lessonId': 3},
+    {'word': 'こんにちは', 'meaning': 'สวัสดี', 'meaning_en': 'Hello', 'romaji': 'Konnichiwa', 'tag': 'Greeting', 'isCustom': false, 'lessonId': 1},
+    {'word': 'ありがとう', 'meaning': 'ขอบคุณ', 'meaning_en': 'Thank you', 'romaji': 'Arigatou', 'tag': 'Basic', 'isCustom': false, 'lessonId': 1},
+    {'word': 'さようなら', 'meaning': 'ลาก่อน', 'meaning_en': 'Goodbye', 'romaji': 'Sayounara', 'tag': 'Basic', 'isCustom': false, 'lessonId': 1},
+    {'word': '私 (Watashi)', 'meaning': 'ฉัน/ผม', 'meaning_en': 'I/Me', 'romaji': 'Watashi', 'tag': 'Pronoun', 'isCustom': false, 'lessonId': 2},
+    {'word': '名前 (Namae)', 'meaning': 'ชื่อ', 'meaning_en': 'Name', 'romaji': 'Namae', 'tag': 'Noun', 'isCustom': false, 'lessonId': 2},
+    {'word': '一 (Ichi)', 'meaning': 'หนึ่ง', 'meaning_en': 'One', 'romaji': 'Ichi', 'tag': 'Number', 'isCustom': false, 'lessonId': 3},
+    {'word': '二 (Ni)', 'meaning': 'สอง', 'meaning_en': 'Two', 'romaji': 'Ni', 'tag': 'Number', 'isCustom': false, 'lessonId': 3},
   ];
 
   static ValueNotifier<List<Map<String, dynamic>>> vocabList = ValueNotifier(List.from(_defaultVocab));
   static ValueNotifier<List<Player>> leaderboard = ValueNotifier([]);
   static ValueNotifier<int> myRankPosition = ValueNotifier(0);
+
+  // Mapping สำหรับ migration vocabulary ที่มีอยู่แล้ว
+  static const Map<String, String> _vocabMeaningEnMap = {
+    'こんにちは': 'Hello',
+    'ありがとう': 'Thank you',
+    'さようなら': 'Goodbye',
+    '私 (Watashi)': 'I/Me',
+    '名前 (Namae)': 'Name',
+    '一 (Ichi)': 'One',
+    '二 (Ni)': 'Two',
+  };
+
+  // Migration function: เพิ่ม meaning_en ให้กับ vocabulary ที่มีอยู่แล้ว
+  static void _migrateVocabulary() {
+    // แยก custom vocabulary ออกมาเก็บไว้
+    List<Map<String, dynamic>> customVocab = vocabList.value
+        .where((vocab) => vocab['isCustom'] == true)
+        .toList();
+    
+    // สร้าง default vocabulary ใหม่ที่มี meaning_en
+    List<Map<String, dynamic>> newDefaultVocab = List.from(_defaultVocab);
+    
+    // รวม custom vocabulary กลับเข้าไป
+    vocabList.value = [...newDefaultVocab, ...customVocab];
+  }
 
   // SharedPreferences Keys
   static const String _keyName = 'user_name';
@@ -161,6 +186,9 @@ class UserData {
     }
     lessonProgress.value = progress;
     lessonCurrentIndex.value = indices;
+
+    // Migrate vocabulary to add meaning_en if missing
+    _migrateVocabulary();
 
     _updateRankAndLevel();
     _generateLeaderboard();
@@ -365,6 +393,11 @@ class UserData {
     vocabList.value = List.from(_defaultVocab);
     
     _generateLeaderboard();
+  }
+
+  // Initialize vocabulary with migration
+  static void initVocabulary() {
+    _migrateVocabulary();
   }
 
   static Future<void> updateName(String newName) async {

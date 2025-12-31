@@ -94,9 +94,12 @@ class LessonVocabListPage extends StatelessWidget {
                     item['word']!,
                     style: GoogleFonts.kanit(fontWeight: FontWeight.bold, fontSize: 18, color: const Color(0xFF2B3445)),
                   ),
-                  subtitle: Text(
-                    "${item['romaji']} • ${item['meaning']}",
-                    style: GoogleFonts.kanit(color: Colors.grey[600], fontSize: 14),
+                  subtitle: ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => Text(
+                      "${item['romaji']} • ${lang == 'en' ? (item['meaning_en'] ?? item['meaning']) : item['meaning']}",
+                      style: GoogleFonts.kanit(color: Colors.grey[600], fontSize: 14),
+                    ),
                   ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -110,13 +113,16 @@ class LessonVocabListPage extends StatelessWidget {
                             builder: (context, appLang, _) => IconButton(
                               icon: const Icon(Icons.mic, color: Color(0xFF58CC02)),
                               onPressed: () {
+                                final meaning = appLang == 'en' 
+                                    ? (item['meaning_en'] ?? item['meaning']) 
+                                    : item['meaning'];
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => PronunciationPracticePage(
                                       word: item['word']!,
                                       language: UserData.targetLanguageToVoiceCode(targetLang),
-                                      meaning: item['meaning'],
+                                      meaning: meaning,
                                     ),
                                   ),
                                 );
