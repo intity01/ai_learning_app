@@ -36,7 +36,7 @@ A cross-platform mobile application for learning Japanese, English, Chinese, and
 
 1. **Clone Repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/flutter_ai_learning_app.git
+   git clone https://github.com/intity01.ai_learning_app.git
    cd flutter_ai_learning_app
    ```
 
@@ -104,11 +104,6 @@ For security vulnerabilities, please see our [Security Policy](SECURITY.md) and 
 * Flutter team for the amazing framework
 * Open source community for free APIs and libraries
 
-## Contact
-
-* **GitHub**: [@your-username](https://github.com/your-username)
-* **Email**: your-email@example.com
 
 ---
 
-Made with ❤️ for language learners worldwide

@@ -51,10 +51,10 @@ lib/config/api_config.dart
 .env
 .env.local
 
-# Firebase config (optional - can be committed if public repo)
-# Uncomment if you want to keep google-services.json private
-# android/app/google-services.json
-# ios/Runner/GoogleService-Info.plist
+# Firebase config (IMPORTANT: Keep these private!)
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+lib/firebase_options.dart
 
 # IDE specific
 .vscode/
