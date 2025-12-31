@@ -9,7 +9,9 @@
 
 **An intelligent language learning app powered by Google Gemini AI and ElevenLabs voice technology**
 
-[Features](#-features) • [Installation](#-installation) • [Setup](#-setup) • [Demo](#-demo) • [Contributing](#-contributing)
+[🌐 Try Online](https://YOUR_USERNAME.github.io/flutter_ai_learning_app/) • [Features](#-features) • [Installation](#-installation) • [Setup](#-setup) • [Demo](#-demo) • [Contributing](#-contributing)
+
+> ⚠️ **Note:** แทนที่ `YOUR_USERNAME` ด้วย GitHub username ของคุณใน URL ด้านบน
 
 </div>
 
@@ -198,10 +200,21 @@ lib/
 
 ---
 
+## 🌐 Try it Online
+
+**Live Demo:** [https://YOUR_USERNAME.github.io/flutter_ai_learning_app/](https://YOUR_USERNAME.github.io/flutter_ai_learning_app/)
+
+> ⚠️ **Setup Required:** 
+> - ดูคู่มือการตั้งค่า GitHub Pages: [`GITHUB_PAGES_SETUP.md`](GITHUB_PAGES_SETUP.md)
+> - แทนที่ `YOUR_USERNAME` ด้วย GitHub username ของคุณ
+
+---
+
 ## 📖 Documentation
 
+- [`GITHUB_PAGES_SETUP.md`](GITHUB_PAGES_SETUP.md) - 🌐 GitHub Pages deployment guide
 - [`HACKATHON_SUBMISSION.md`](HACKATHON_SUBMISSION.md) - Hackathon submission details
-- [`GITHUB_SETUP.md`](GITHUB_SETUP.md) - GitHub setup guide
+- [`GITHUB_SETUP.md`](GITHUB_SETUP.md) - GitHub repository setup guide
 - [`FIREBASE_QUICK_START.md`](FIREBASE_QUICK_START.md) - Firebase setup
 - [`API_KEYS_SETUP.md`](API_KEYS_SETUP.md) - API keys configuration
 
@@ -247,7 +260,8 @@ This project was created for the **AI Partner Catalyst Hackathon**.
 
 **Submission Details:**
 - See [`HACKATHON_SUBMISSION.md`](HACKATHON_SUBMISSION.md) for complete submission information
-- **Try it out**: https://github.com/YOUR_USERNAME/flutter_ai_learning_app
+- **🌐 Live Demo**: https://YOUR_USERNAME.github.io/flutter_ai_learning_app/
+- **📦 Repository**: https://github.com/YOUR_USERNAME/flutter_ai_learning_app
 
 ---
 

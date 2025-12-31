@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Page Not Found</title>
+  <script>
+    // Redirect to index.html for client-side routing
+    // This handles 404 errors on GitHub Pages for Flutter web apps
+    var path = window.location.pathname;
+    var pathSegmentsToKeep = 1; // Number of path segments to keep (usually 1 for /repository-name/)
+    
+    var segments = path.split('/').filter(function(v) { return v; });
+    if (segments.length > pathSegmentsToKeep) {
+      var newPath = '/' + segments.slice(0, pathSegmentsToKeep).join('/') + '/';
+      window.location.replace(newPath);
+    } else {
+      window.location.replace('/ai_learning_app/'); // Repository name: ai_learning_app
+    }
+  </script>
+</head>
+<body>
+  <h1>Page Not Found</h1>
+  <p>Redirecting...</p>
+</body>
+</html>
+
