@@ -217,6 +217,7 @@ lib/
 - [`GITHUB_SETUP.md`](GITHUB_SETUP.md) - GitHub repository setup guide
 - [`FIREBASE_QUICK_START.md`](FIREBASE_QUICK_START.md) - Firebase setup
 - [`API_KEYS_SETUP.md`](API_KEYS_SETUP.md) - API keys configuration
+- [`SECURITY.md`](SECURITY.md) - 🔒 Security policy and vulnerability reporting
 
 ---
 
@@ -235,6 +236,12 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🔒 Security
+
+For security vulnerabilities, please see our [Security Policy](SECURITY.md) and report them privately. **Do not** open public issues for security vulnerabilities.
 
 ---
 

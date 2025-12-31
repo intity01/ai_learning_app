@@ -37,9 +37,9 @@ dependencies:
   http: ^1.1.0
 
   # 🔥 Firebase (Authentication & Database)
-  firebase_core: ^2.24.2
-  firebase_auth: ^4.15.3
-  cloud_firestore: ^4.13.6
+  firebase_core: ^3.0.0
+  firebase_auth: ^5.0.0
+  cloud_firestore: ^5.0.0
   google_sign_in: ^6.2.1  # ✅ สำหรับ Google Sign-In
 
   # 🎤 ElevenLabs + Google Cloud AI (สำหรับ Hackathon)
