@@ -3,7 +3,7 @@ name: Deploy Flutter Web to GitHub Pages
 on:
   push:
     branches:
-      - main  # หรือ master ถ้าใช้ master เป็น main branch
+      - master  # หรือ main ถ้าใช้ main เป็น default branch
   workflow_dispatch:  # อนุญาตให้ deploy แบบ manual
 
 permissions:
