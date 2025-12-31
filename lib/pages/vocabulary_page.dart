@@ -165,22 +165,7 @@ class VocabularyPage extends StatelessWidget {
 
             return GestureDetector(
               onTap: isLocked ? () {
-                // ถ้าล็อค ให้แจ้งเตือน
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: ValueListenableBuilder<String>(
-                      valueListenable: UserData.appLanguage,
-                      builder: (context, lang, _) => Text(
-                        "🔒 ${AppStrings.t('lesson_locked_message')}",
-                        style: GoogleFonts.kanit(),
-                      ),
-                    ),
-                    backgroundColor: Colors.grey.shade800,
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  ),
-                );
+                // ไม่แสดงข้อความอะไรเมื่อคลิกบทเรียนที่ล็อค
               } : () {
                 // ถ้าไม่ล็อค ไปหน้าศัพท์
                 Navigator.push(
@@ -354,27 +339,30 @@ class VocabularyPage extends StatelessWidget {
   void _showDeleteDialog(BuildContext context, String word) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text("ลบคำศัพท์?", style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
-        content: Text("คุณต้องการลบคำว่า \"$word\" ใช่ไหม?", style: GoogleFonts.kanit()),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text("ยกเลิก", style: GoogleFonts.kanit(color: Colors.grey)),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.redAccent,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+      builder: (context) => ValueListenableBuilder<String>(
+        valueListenable: UserData.appLanguage,
+        builder: (context, lang, _) => AlertDialog(
+          title: Text(AppStrings.t('delete_vocabulary'), style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
+          content: Text(AppStrings.t('delete_vocabulary_confirm', params: {'word': word}), style: GoogleFonts.kanit()),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(AppStrings.t('cancel'), style: GoogleFonts.kanit(color: Colors.grey)),
             ),
-            onPressed: () {
-              UserData.deleteVocabulary(word);
-              Navigator.pop(context);
-            },
-            child: Text("ลบ", style: GoogleFonts.kanit(color: Colors.white)),
-          ),
-        ],
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+              ),
+              onPressed: () {
+                UserData.deleteVocabulary(word);
+                Navigator.pop(context);
+              },
+              child: Text(AppStrings.t('delete'), style: GoogleFonts.kanit(color: Colors.white)),
+            ),
+          ],
+        ),
       ),
     );
   }

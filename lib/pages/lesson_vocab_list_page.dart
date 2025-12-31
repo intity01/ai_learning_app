@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../user_data.dart';
+import '../app_strings.dart';
 import 'pronunciation_practice_page.dart';
 
 class LessonVocabListPage extends StatelessWidget {
@@ -51,7 +52,13 @@ class LessonVocabListPage extends StatelessWidget {
 
           if (lessonWords.isEmpty) {
             return Center(
-              child: Text("ยังไม่มีคำศัพท์ในบทนี้", style: GoogleFonts.kanit(color: Colors.grey)),
+              child: ValueListenableBuilder<String>(
+                valueListenable: UserData.appLanguage,
+                builder: (context, lang, _) => Text(
+                  AppStrings.t('no_vocab_in_lesson'),
+                  style: GoogleFonts.kanit(color: Colors.grey),
+                ),
+              ),
             );
           }
 
@@ -98,21 +105,24 @@ class LessonVocabListPage extends StatelessWidget {
                       ValueListenableBuilder<String>(
                         valueListenable: UserData.targetLanguage,
                         builder: (context, targetLang, _) {
-                          return IconButton(
-                            icon: const Icon(Icons.mic, color: Color(0xFF58CC02)),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PronunciationPracticePage(
-                                    word: item['word']!,
-                                    language: UserData.targetLanguageToVoiceCode(targetLang),
-                                    meaning: item['meaning'],
+                          return ValueListenableBuilder<String>(
+                            valueListenable: UserData.appLanguage,
+                            builder: (context, appLang, _) => IconButton(
+                              icon: const Icon(Icons.mic, color: Color(0xFF58CC02)),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PronunciationPracticePage(
+                                      word: item['word']!,
+                                      language: UserData.targetLanguageToVoiceCode(targetLang),
+                                      meaning: item['meaning'],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                            tooltip: 'ฝึกออกเสียง',
+                                );
+                              },
+                              tooltip: AppStrings.t('practice_pronunciation'),
+                            ),
                           );
                         },
                       ),

@@ -22,6 +22,8 @@ class LessonDetailPage extends StatefulWidget {
 class _LessonDetailPageState extends State<LessonDetailPage> {
   // ✅ ใช้ Question จาก LessonData แทน hardcoded
   List<Question> _questions = [];
+  List<Question> _wrongQuestions = []; // เก็บข้อที่ตอบผิด
+  List<Question> _originalQuestions = []; // เก็บข้อเดิมทั้งหมด
   bool _isLoading = true;
   String? _errorMessage;
 
@@ -31,6 +33,9 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
   bool _isCorrect = false;    // ตอบถูกไหม
   bool _hasShownExplanation = false; // ✅ แสดง explanation dialog แล้วหรือยัง
   final TextEditingController _writingController = TextEditingController(); // ✅ สำหรับ writing mode
+  
+  int _wrongCount = 0; // จำนวนข้อที่ตอบผิด
+  int _correctCount = 0; // จำนวนข้อที่ตอบถูก
 
   @override
   void initState() {
@@ -95,17 +100,24 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
       }
       
       _questions = loadedQuestions;
+      _originalQuestions = List.from(loadedQuestions); // เก็บข้อเดิม
       
       // ถ้ายังไม่มี ให้ใช้ fallback
       if (_questions.isEmpty) {
+        final appLang = UserData.appLanguage.value;
         _questions = [
           Question(
-            question: 'คำว่า "สวัสดี" ในภาษาญี่ปุ่นคือ?',
+            question: appLang == 'th' 
+                ? 'คำว่า "สวัสดี" ในภาษาญี่ปุ่นคือ?'
+                : 'What is the Japanese word for "Hello"?',
             options: ['Konnichiwa', 'Sayounara', 'Arigatou'],
             correctAnswerIndex: 0,
-            explanation: 'Konnichiwa (こんにちは) แปลว่า "สวัสดี" ใช้ทักทายตอนกลางวัน',
+            explanation: appLang == 'th'
+                ? 'Konnichiwa (こんにちは) แปลว่า "สวัสดี" ใช้ทักทายตอนกลางวัน'
+                : 'Konnichiwa (こんにちは) means "Hello" and is used to greet during the day',
           ),
         ];
+        _originalQuestions = List.from(_questions); // เก็บข้อเดิม
       }
       
       // 🔥 โหลดตำแหน่งล่าสุดที่เคยเรียนไว้
@@ -152,7 +164,14 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
       });
 
       if (!isCorrect) {
+        // เก็บข้อที่ตอบผิดไว้เพื่อทำซ้ำ
+        if (!_wrongQuestions.any((q) => q.question == currentQuestion.question)) {
+          _wrongQuestions.add(currentQuestion);
+          _wrongCount++;
+        }
         _showExplanationDialog(currentQuestion);
+      } else {
+        _correctCount++;
       }
     }
     // สำหรับ speaking, reading, writing จะตรวจใน UI component ของแต่ละ mode
@@ -362,9 +381,29 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
         _writingController.clear(); // ✅ ล้างข้อความใน writing mode
       });
     } else {
-      // ถ้าหมดข้อแล้ว ให้จบเกม
-      _finishLesson();
+      // ถ้าหมดข้อแล้ว ตรวจสอบว่ามีข้อที่ผิดหรือไม่
+      if (_wrongQuestions.isNotEmpty) {
+        // มีข้อที่ผิด ให้ทำซ้ำ
+        _retryWrongQuestions();
+      } else {
+        // ไม่มีข้อผิด ให้จบเกม
+        _finishLesson();
+      }
     }
+  }
+  
+  // ทำข้อที่ผิดซ้ำ
+  void _retryWrongQuestions() {
+    setState(() {
+      _questions = List.from(_wrongQuestions); // ใช้ข้อที่ผิด
+      _wrongQuestions = []; // ล้างรายการข้อผิด
+      _currentIndex = 0;
+      _selectedOption = null;
+      _isChecked = false;
+      _isCorrect = false;
+      _hasShownExplanation = false;
+      _writingController.clear();
+    });
   }
 
   // ✅ สร้าง UI ตาม type ของคำถาม
@@ -469,8 +508,19 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
 
   // ✅ Method สำหรับจบบทเรียน
   void _finishLesson() {
-    // บันทึกว่าเรียนจบแล้ว
-    UserData.completeLesson(widget.lessonId, widget.title);
+    // คำนวณ XP ตามจำนวนข้อที่ผิด
+    final totalQuestions = _originalQuestions.length;
+    final baseXP = 50;
+    final wrongPenalty = 5; // ลด XP 5 ต่อข้อผิด
+    final correctBonus = 2; // เพิ่ม XP 2 ต่อข้อถูก
+    
+    // สูตร: baseXP - (wrongCount * wrongPenalty) / totalQuestions + (correctCount * correctBonus) / totalQuestions
+    // แล้วคูณด้วย totalQuestions เพื่อให้ได้ XP ที่เหมาะสม
+    final xpGain = ((baseXP - (wrongPenalty * _wrongCount / totalQuestions) + (correctBonus * _correctCount / totalQuestions)) * totalQuestions / totalQuestions).round();
+    final finalXP = xpGain.clamp(10, 100); // จำกัด XP ระหว่าง 10-100
+    
+    // บันทึกว่าเรียนจบแล้ว พร้อม XP ที่คำนวณได้
+    UserData.completeLessonWithXP(widget.lessonId, widget.title, finalXP);
 
     showDialog(
       context: context,
@@ -481,13 +531,41 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
           children: [
             const Icon(Icons.check_circle, color: Color(0xFF58CC02), size: 60),
             const SizedBox(height: 10),
-            Text("บทเรียนสำเร็จ!", style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
+            ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                AppStrings.t('lesson_completed'),
+                style: GoogleFonts.kanit(fontWeight: FontWeight.bold),
+              ),
+            ),
           ],
         ),
-        content: Text(
-          "สุดยอดมาก! 🎉\nคุณได้รับ +50 XP \nและปลดล็อคบทเรียนถัดไปแล้ว",
-          textAlign: TextAlign.center,
-          style: GoogleFonts.kanit(fontSize: 16),
+        content: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) {
+            final totalQuestions = _originalQuestions.isEmpty ? _questions.length : _originalQuestions.length;
+            final baseXP = 50;
+            final wrongPenalty = 5;
+            final correctBonus = 2;
+            final xpGain = ((baseXP - (wrongPenalty * _wrongCount / totalQuestions) + (correctBonus * _correctCount / totalQuestions)) * totalQuestions / totalQuestions).round();
+            final finalXP = xpGain.clamp(10, 100);
+            
+            final message = AppStrings.t('lesson_completed_message');
+            final parts = message.split('\n');
+            String finalMessage = message;
+            if (parts.length >= 2) {
+              finalMessage = '${parts[0]}\n${parts[1].replaceAll('+50 XP', '+$finalXP XP')}';
+              if (parts.length >= 3) {
+                finalMessage += '\n${parts[2]}';
+              }
+            }
+            
+            return Text(
+              finalMessage,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.kanit(fontSize: 16),
+            );
+          },
         ),
         actions: [
           Center(
@@ -507,9 +585,12 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                   Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                 }
               },
-              child: Text(
-                "รับทราบ", 
-                style: GoogleFonts.kanit(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)
+              child: ValueListenableBuilder<String>(
+                valueListenable: UserData.appLanguage,
+                builder: (context, lang, _) => Text(
+                  AppStrings.t('acknowledged'),
+                  style: GoogleFonts.kanit(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                ),
               ),
             ),
           ),

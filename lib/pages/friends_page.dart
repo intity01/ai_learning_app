@@ -8,6 +8,7 @@ import '../services/friend_service.dart';
 import '../models/friend.dart';
 import 'friend_chat_page.dart';
 import 'add_friend_page.dart';
+import 'public_profile_page.dart';
 
 class FriendsPage extends StatefulWidget {
   const FriendsPage({super.key});
@@ -202,9 +203,26 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
           BoxShadow(color: Colors.grey.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 4))
         ],
       ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
-        leading: Stack(
+      child: InkWell(
+        onTap: () {
+          // ไปหน้าโปรไฟล์ของเพื่อน
+          // เนื่องจาก Friend model ไม่มี xp ให้ใช้ค่า default หรือดึงจากที่อื่น
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PublicProfilePage(
+                userName: friend.name,
+                avatarUrl: friend.avatarUrl ?? UserData.avatarTemplates[0],
+                xp: 0, // TODO: ดึง xp จาก friend data ถ้ามี
+                isMe: false,
+              ),
+            ),
+          );
+        },
+        borderRadius: BorderRadius.circular(16),
+        child: ListTile(
+          contentPadding: const EdgeInsets.all(16),
+          leading: Stack(
           children: [
             CircleAvatar(
               radius: 28,
@@ -293,6 +311,7 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
               ],
             ),
           ],
+        ),
         ),
       ),
     );

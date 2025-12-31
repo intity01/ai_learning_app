@@ -58,7 +58,13 @@ class _AddVocabularyPageState extends State<AddVocabularyPage> {
       // Error handling
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('เกิดข้อผิดพลาด: $e', style: GoogleFonts.kanit()),
+          content: ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => Text(
+              '${AppStrings.t('error_occurred')}: $e',
+              style: GoogleFonts.kanit(),
+            ),
+          ),
           backgroundColor: Colors.redAccent,
           behavior: SnackBarBehavior.floating,
         ),
@@ -132,7 +138,7 @@ class _AddVocabularyPageState extends State<AddVocabularyPage> {
                   ),
                   ValueListenableBuilder<String>(
                     valueListenable: UserData.appLanguage,
-                    builder: (context, lang, _) => _buildInput(_romajiController, "${AppStrings.t('example')} Neko, เนโกะ", Icons.record_voice_over_rounded),
+                    builder: (context, lang, _) => _buildInput(_romajiController, lang == 'th' ? "${AppStrings.t('example')} Neko, เนโกะ" : "${AppStrings.t('example')} Neko", Icons.record_voice_over_rounded),
                   ),
                   const SizedBox(height: 20),
                   ValueListenableBuilder<String>(

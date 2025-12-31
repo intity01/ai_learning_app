@@ -396,6 +396,10 @@ class UserData {
   }
 
   static Future<void> completeLesson(int lessonId, String lessonTitle) async {
+    await completeLessonWithXP(lessonId, lessonTitle, 50);
+  }
+  
+  static Future<void> completeLessonWithXP(int lessonId, String lessonTitle, int xpGain) async {
     final prefs = await SharedPreferences.getInstance();
     
     // Update Progress to 100%
@@ -408,9 +412,7 @@ class UserData {
     Map<int, int> currentIndices = Map.from(lessonCurrentIndex.value);
     currentIndices[lessonId] = 0;
     lessonCurrentIndex.value = currentIndices;
-    await prefs.setInt('$_keyLessonIndex$lessonId', 0);
-
-    int xpGain = 50; 
+    await prefs.setInt('$_keyLessonIndex$lessonId', 0); 
     xp.value += xpGain;
     await prefs.setInt(_keyXP, xp.value);
 

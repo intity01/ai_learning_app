@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../user_data.dart';
 import '../app_strings.dart';
+import 'public_profile_page.dart';
 
 class LeaderboardPage extends StatelessWidget {
   const LeaderboardPage({super.key});
@@ -257,9 +258,24 @@ class LeaderboardPage extends StatelessWidget {
                           )
                         ],
                       ),
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                        leading: Container(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PublicProfilePage(
+                                userName: player.name,
+                                avatarUrl: player.avatarUrl,
+                                xp: player.xp,
+                                isMe: player.isMe,
+                              ),
+                            ),
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(16),
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          leading: Container(
                           width: 50,
                           height: 50,
                           decoration: BoxDecoration(
@@ -343,6 +359,7 @@ class LeaderboardPage extends StatelessWidget {
                                   : Colors.blueAccent
                             )
                           ),
+                        ),
                         ),
                       ),
                     ).animate()

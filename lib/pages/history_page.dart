@@ -7,6 +7,32 @@ import '../app_strings.dart';
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
 
+  /// แปลง title ที่เป็นภาษาไทยเป็น localized string
+  String _getLocalizedTitle(String title) {
+    final topicMap = {
+      'คำทักทายพื้นฐาน': 'topic_basic_greetings',
+      'พื้นฐานการทักทาย': 'lesson_basic_greetings',
+      'ตัวเลขและจำนวน': 'topic_numbers_quantity',
+      'สีและคำศัพท์พื้นฐาน': 'topic_colors_vocab',
+      'ครอบครัวและคน': 'topic_family_people',
+      'อาหารและเครื่องดื่ม': 'topic_food_drinks',
+      'วันและเวลา': 'topic_days_time',
+      'คำกริยาพื้นฐาน': 'topic_basic_verbs',
+      'คำคุณศัพท์พื้นฐาน': 'topic_basic_adjectives',
+      'แนะนำตัวเอง': 'lesson_introduce_self',
+      'ตัวเลขและราคา': 'lesson_numbers_prices',
+      'ร้านอาหาร': 'lesson_restaurant',
+      'การเดินทาง': 'lesson_travel',
+    };
+    
+    final key = topicMap[title];
+    if (key != null) {
+      return AppStrings.t(key);
+    }
+    
+    return title;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +112,7 @@ class HistoryPage extends StatelessWidget {
               // ข้อมูลเก็บในรูปแบบ "Title|Timestamp" เราต้องแยกออกมา
               final item = historyList[index];
               final parts = item.split('|');
-              final title = parts.isNotEmpty ? parts[0] : 'Unknown';
+              final rawTitle = parts.isNotEmpty ? parts[0] : 'Unknown';
               final time = parts.length > 1 ? parts[1] : '-';
 
               return Container(
@@ -112,12 +138,15 @@ class HistoryPage extends StatelessWidget {
                     ),
                     child: const Icon(Icons.check_circle, color: Color(0xFF58CC02), size: 24),
                   ),
-                  title: Text(
-                    title,
-                    style: GoogleFonts.kanit(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: const Color(0xFF2B3445),
+                  title: ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => Text(
+                      _getLocalizedTitle(rawTitle),
+                      style: GoogleFonts.kanit(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: const Color(0xFF2B3445),
+                      ),
                     ),
                   ),
                   subtitle: Padding(

@@ -206,9 +206,21 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
                   children: [
                     Icon(Icons.group_outlined, size: 80, color: Colors.grey.shade300),
                     const SizedBox(height: 16),
-                    Text('ยังไม่มีกลุ่ม', style: GoogleFonts.kanit(color: Colors.grey, fontSize: 18)),
+                    ValueListenableBuilder<String>(
+                      valueListenable: UserData.appLanguage,
+                      builder: (context, lang, _) => Text(
+                        AppStrings.t('no_groups_yet'),
+                        style: GoogleFonts.kanit(color: Colors.grey, fontSize: 18),
+                      ),
+                    ),
                     const SizedBox(height: 8),
-                    Text('สร้างกลุ่มใหม่เพื่อเริ่มชุมชน!', style: GoogleFonts.kanit(color: Colors.grey.shade500)),
+                    ValueListenableBuilder<String>(
+                      valueListenable: UserData.appLanguage,
+                      builder: (context, lang, _) => Text(
+                        AppStrings.t('create_group_to_start_community'),
+                        style: GoogleFonts.kanit(color: Colors.grey.shade500),
+                      ),
+                    ),
                   ],
                 ),
               );
@@ -256,7 +268,13 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
               children: [
                 Icon(Icons.person_outline, size: 80, color: Colors.grey.shade300),
                 const SizedBox(height: 16),
-                Text('คุณยังไม่ได้เข้าร่วมห้องหรือกลุ่ม', style: GoogleFonts.kanit(color: Colors.grey, fontSize: 18)),
+                ValueListenableBuilder<String>(
+                  valueListenable: UserData.appLanguage,
+                  builder: (context, lang, _) => Text(
+                    AppStrings.t('not_joined_any_room_or_group'),
+                    style: GoogleFonts.kanit(color: Colors.grey, fontSize: 18),
+                  ),
+                ),
               ],
             ),
           );
@@ -266,15 +284,25 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
           padding: const EdgeInsets.all(16),
           children: [
             if (rooms.isNotEmpty) ...[
-              Text('ห้องที่เข้าร่วม (${rooms.length})', 
-                style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445))),
+              ValueListenableBuilder<String>(
+                valueListenable: UserData.appLanguage,
+                builder: (context, lang, _) => Text(
+                  '${AppStrings.t('joined_rooms')} (${rooms.length})',
+                  style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+                ),
+              ),
               const SizedBox(height: 12),
               ...rooms.map((room) => _buildRoomCard(room)),
               const SizedBox(height: 24),
             ],
             if (groups.isNotEmpty) ...[
-              Text('กลุ่มที่เข้าร่วม (${groups.length})', 
-                style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445))),
+              ValueListenableBuilder<String>(
+                valueListenable: UserData.appLanguage,
+                builder: (context, lang, _) => Text(
+                  '${AppStrings.t('joined_groups')} (${groups.length})',
+                  style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+                ),
+              ),
               const SizedBox(height: 12),
               ...groups.map((group) => _buildGroupCard(group)),
             ],
@@ -397,8 +425,20 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('สร้างห้องใหม่', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
-        content: Text('เลือกประเภทห้องที่ต้องการสร้าง', style: GoogleFonts.kanit()),
+        title: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('create_new_room'),
+            style: GoogleFonts.kanit(fontWeight: FontWeight.bold),
+          ),
+        ),
+        content: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('select_room_type'),
+            style: GoogleFonts.kanit(),
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () {

@@ -125,13 +125,12 @@ class LessonListPage extends StatelessWidget {
       }).toList();
     } else {
       // Fallback: แสดงบทเรียน default
-      final lang = UserData.appLanguage.value;
       lessons = [
-        {'id': 1, 'title': lang == 'th' ? 'พื้นฐานการทักทาย' : AppStrings.t('lesson_basic_greetings'), 'desc': lang == 'th' ? 'สวัสดี, ขอบคุณ, ขอโทษ' : 'Hello, Thank you, Sorry', 'icon': Icons.waving_hand_rounded},
-        {'id': 2, 'title': lang == 'th' ? 'แนะนำตัวเอง' : AppStrings.t('lesson_introduce_self'), 'desc': lang == 'th' ? 'ชื่อ, อายุ, อาชีพ, งานอดิเรก' : 'Name, Age, Occupation, Hobby', 'icon': Icons.person_pin_rounded},
-        {'id': 3, 'title': lang == 'th' ? 'ตัวเลขและราคา' : AppStrings.t('lesson_numbers_prices'), 'desc': lang == 'th' ? 'นับเลข, ซื้อของ, ต่อราคา' : 'Count numbers, Shopping, Bargaining', 'icon': Icons.shopping_bag_rounded},
-        {'id': 4, 'title': lang == 'th' ? 'ร้านอาหาร' : AppStrings.t('lesson_restaurant'), 'desc': lang == 'th' ? 'สั่งอาหาร, รสชาติ, เช็คบิล' : 'Order food, Taste, Check bill', 'icon': Icons.restaurant_menu_rounded},
-        {'id': 5, 'title': lang == 'th' ? 'การเดินทาง' : AppStrings.t('lesson_travel'), 'desc': lang == 'th' ? 'รถไฟ, แท็กซี่, ถามทาง' : 'Train, Taxi, Ask directions', 'icon': Icons.train_rounded},
+        {'id': 1, 'title': AppStrings.t('lesson_basic_greetings'), 'desc': AppStrings.t('lesson_basic_greetings'), 'icon': Icons.waving_hand_rounded},
+        {'id': 2, 'title': AppStrings.t('lesson_introduce_self'), 'desc': AppStrings.t('lesson_introduce_self'), 'icon': Icons.person_pin_rounded},
+        {'id': 3, 'title': AppStrings.t('lesson_numbers_prices'), 'desc': AppStrings.t('lesson_numbers_prices'), 'icon': Icons.shopping_bag_rounded},
+        {'id': 4, 'title': AppStrings.t('lesson_restaurant'), 'desc': AppStrings.t('lesson_restaurant'), 'icon': Icons.restaurant_menu_rounded},
+        {'id': 5, 'title': AppStrings.t('lesson_travel'), 'desc': AppStrings.t('lesson_travel'), 'icon': Icons.train_rounded},
       ];
     }
 
@@ -250,21 +249,7 @@ class LessonListPage extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: isLocked ? () {
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: ValueListenableBuilder<String>(
-              valueListenable: UserData.appLanguage,
-              builder: (context, lang, _) => Text(
-                "🔒 ${AppStrings.t('lesson_clear_previous')}",
-                style: GoogleFonts.kanit(),
-              ),
-            ),
-            backgroundColor: Colors.grey.shade800,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-        );
+        // ไม่แสดงข้อความอะไรเมื่อคลิกบทเรียนที่ล็อค
       } : () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => LessonDetailPage(
           lessonId: id, 
