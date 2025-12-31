@@ -18,7 +18,12 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+        jvmTarget = "17"
+    }
+
+    // Suppress warnings about obsolete Java version
+    tasks.withType<JavaCompile> {
+        options.compilerArgs.add("-Xlint:-options")
     }
 
     defaultConfig {

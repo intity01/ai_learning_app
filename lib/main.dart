@@ -25,10 +25,17 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // ✅ Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // ✅ Initialize Firebase (ตรวจสอบว่า initialize แล้วหรือยัง)
+  try {
+    if (Firebase.apps.isEmpty) {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    }
+  } catch (e) {
+    // ถ้า Firebase ถูก initialize แล้วจะไม่ error
+    debugPrint('Firebase initialization: $e');
+  }
   
   await UserData.init(); 
   runApp(const MyApp());
