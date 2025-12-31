@@ -1,0 +1,22 @@
+# This workflow is disabled because Flutter web build has compatibility issues
+# with Firebase packages. The app is primarily a mobile app.
+#
+# To enable:
+# 1. Fix Firebase web compatibility issues
+# 2. Set up GitHub Secrets for Firebase credentials
+# 3. Rename this file to deploy_github_pages.yml
+
+name: Deploy Flutter Web to GitHub Pages (DISABLED)
+
+on:
+  workflow_dispatch:  # Only manual trigger when enabled
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Note
+        run: echo "Web build is disabled. This is a mobile-first app."
+
