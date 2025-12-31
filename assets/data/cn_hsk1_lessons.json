@@ -1,0 +1,52 @@
+{
+  "language": "CN",
+  "level": "HSK1",
+  "lessons": [
+    {
+      "id": 1,
+      "title": "คำทักทาย",
+      "level": "HSK1",
+      "language": "CN",
+      "questions": [
+        {
+          "question": "คำว่า 'สวัสดี' ภาษาจีนคือ?",
+          "options": ["你好", "谢谢", "对不起", "再见"],
+          "correctAnswerIndex": 0,
+          "explanation": "你好 (Nǐ hǎo) แปลว่า 'สวัสดี'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "'谢谢' แปลว่าอะไร?",
+          "options": ["สวัสดี", "ขอบคุณ", "ขอโทษ", "ลาก่อน"],
+          "correctAnswerIndex": 1,
+          "explanation": "谢谢 (Xièxiè) แปลว่า 'ขอบคุณ'",
+          "type": "multipleChoice"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "ตัวเลข",
+      "level": "HSK1",
+      "language": "CN",
+      "questions": [
+        {
+          "question": "เลข 'หนึ่ง' ภาษาจีนคือ?",
+          "options": ["一", "二", "三", "四"],
+          "correctAnswerIndex": 0,
+          "explanation": "一 (Yī) แปลว่า 'หนึ่ง'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "เลข 'สอง' ภาษาจีนคือ?",
+          "options": ["一", "二", "三", "四"],
+          "correctAnswerIndex": 1,
+          "explanation": "二 (Èr) แปลว่า 'สอง'",
+          "type": "multipleChoice"
+        }
+      ]
+    }
+  ]
+}
+
+

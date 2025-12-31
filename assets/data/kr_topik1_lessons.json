@@ -1,0 +1,52 @@
+{
+  "language": "KR",
+  "level": "TOPIK1",
+  "lessons": [
+    {
+      "id": 1,
+      "title": "คำทักทาย",
+      "level": "TOPIK1",
+      "language": "KR",
+      "questions": [
+        {
+          "question": "คำว่า 'สวัสดี' ภาษาเกาหลีคือ?",
+          "options": ["안녕하세요", "감사합니다", "죄송합니다", "안녕히 가세요"],
+          "correctAnswerIndex": 0,
+          "explanation": "안녕하세요 (Annyeonghaseyo) แปลว่า 'สวัสดี'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "'감사합니다' แปลว่าอะไร?",
+          "options": ["สวัสดี", "ขอบคุณ", "ขอโทษ", "ลาก่อน"],
+          "correctAnswerIndex": 1,
+          "explanation": "감사합니다 (Gamsahamnida) แปลว่า 'ขอบคุณ'",
+          "type": "multipleChoice"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "ตัวเลข",
+      "level": "TOPIK1",
+      "language": "KR",
+      "questions": [
+        {
+          "question": "เลข 'หนึ่ง' ภาษาเกาหลีคือ?",
+          "options": ["일", "이", "삼", "사"],
+          "correctAnswerIndex": 0,
+          "explanation": "일 (Il) แปลว่า 'หนึ่ง'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "เลข 'สอง' ภาษาเกาหลีคือ?",
+          "options": ["일", "이", "삼", "사"],
+          "correctAnswerIndex": 1,
+          "explanation": "이 (I) แปลว่า 'สอง'",
+          "type": "multipleChoice"
+        }
+      ]
+    }
+  ]
+}
+
+

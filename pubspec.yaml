@@ -1,0 +1,66 @@
+name: flutter_ai_learning_app
+description: "A new Flutter project."
+publish_to: 'none'
+license: MIT
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # ไอคอนมาตรฐาน iOS
+  cupertino_icons: ^1.0.8
+
+  # ระบบเซฟข้อมูลลงเครื่อง (Streak, XP, Rank)
+  shared_preferences: ^2.3.2
+
+  # ฟอนต์สวยๆ (Kanit)
+  google_fonts: ^6.1.0
+
+  # อนิเมชั่น (จำเป็นสำหรับหน้า Home/Onboarding ใหม่)
+  flutter_animate: ^4.5.0
+
+  # การจัดระยะห่าง (จำเป็นสำหรับ Layout ใหม่)
+  gap: ^3.0.1
+
+  # 🔥 เสียงพูด (Text-to-Speech) สำหรับหน้าคำศัพท์
+  flutter_tts: ^3.8.3
+
+  # 🔥 กราฟสถิติ (Charts) สำหรับหน้า Stats
+  fl_chart: ^0.66.0
+
+  # 🔥 HTTP client สำหรับเชื่อมต่อ Jira API
+  http: ^1.1.0
+
+  # 🔥 Firebase (Authentication & Database)
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  cloud_firestore: ^4.13.6
+  google_sign_in: ^6.2.1  # ✅ สำหรับ Google Sign-In
+
+  # 🎤 ElevenLabs + Google Cloud AI (สำหรับ Hackathon)
+  google_generative_ai: ^0.2.3  # สำหรับ Google Gemini API (ตามข้อกำหนด hackathon)
+  record: ^6.0.0  # สำหรับ Speech-to-Text recording (อัปเดตเป็น version ใหม่)
+  permission_handler: ^11.0.0  # สำหรับ microphone permissions
+  audioplayers: ^5.2.1  # สำหรับเล่น audio จาก ElevenLabs
+  speech_to_text: ^7.0.0  # สำหรับ Speech-to-Text (แปลงเสียงเป็นข้อความ)
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  
+  # Assets (JSON files สำหรับบทเรียน)
+  assets:
+    - assets/data/japanese_lessons.json
+    - assets/data/jp_n5_lessons.json
+    - assets/data/en_beginner_lessons.json
+    - assets/data/cn_hsk1_lessons.json
+    - assets/data/kr_topik1_lessons.json

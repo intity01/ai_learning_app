@@ -1,0 +1,88 @@
+{
+  "project": {
+    "name": "Flutter AI Learning App",
+    "type": "Flutter/Dart Mobile Application",
+    "version": "1.0.0+1",
+    "description": "แอปพลิเคชันเรียนรู้ภาษาญี่ปุ่นและอังกฤษด้วย AI"
+  },
+  "development": {
+    "primaryPlatform": "Android",
+    "preferredEmulator": "pixel_6_-_api_34_naphat",
+    "emulatorId": "pixel_6_-_api_34_naphat",
+    "knownIssues": {
+      "pixel_7_api_35": "Exit code 1 error during startup - use Pixel 6 instead"
+    },
+    "language": "Thai (with English support)",
+    "codeStyle": "Flutter Best Practices",
+    "stateManagement": "ValueNotifier"
+  },
+  "features": {
+    "implemented": [
+      "Home Page with Daily Quests",
+      "Lesson System with Progress Tracking",
+      "Vocabulary Management",
+      "AI Tutor Page (Mock)",
+      "Stats Page with Charts",
+      "Leaderboard",
+      "Profile Page",
+      "Settings Page"
+    ],
+    "pending": [
+      "AI Service Integration",
+      "Voice Service Integration",
+      "Jira API Integration",
+      "Dark Mode",
+      "Offline Mode",
+      "Push Notifications"
+    ]
+  },
+  "technical": {
+    "dependencies": [
+      "shared_preferences: ^2.3.2",
+      "google_fonts: ^6.1.0",
+      "flutter_animate: ^4.5.0",
+      "gap: ^3.0.1",
+      "flutter_tts: ^3.8.3",
+      "fl_chart: ^0.66.0",
+      "http: ^1.1.0"
+    ],
+    "issues": {
+      "deprecationWarnings": 72,
+      "deprecationType": "withOpacity - should use withValues",
+      "unusedVariable": "rankColor in leaderboard_page.dart (fixed)"
+    },
+    "architecture": {
+      "stateManagement": "ValueNotifier",
+      "dataStorage": "SharedPreferences",
+      "services": "lib/services/",
+      "pages": "lib/pages/",
+      "widgets": "lib/widgets/"
+    }
+  },
+  "integrations": {
+    "jira": {
+      "service": "lib/services/jira_service.dart",
+      "status": "Created but not integrated",
+      "needs": ["API Token", "Base URL", "Email"]
+    },
+    "ai": {
+      "service": "lib/services/ai_service.dart",
+      "status": "Empty placeholder",
+      "needs": ["API Integration"]
+    },
+    "voice": {
+      "service": "lib/services/voice_service.dart",
+      "status": "Empty placeholder",
+      "package": "flutter_tts: ^3.8.3",
+      "needs": ["Implementation"]
+    }
+  },
+  "preferences": {
+    "testing": "Android Emulator",
+    "development": "Android Studio",
+    "documentation": "Thai language preferred",
+    "codeComments": "Thai and English mixed"
+  }
+}
+
+

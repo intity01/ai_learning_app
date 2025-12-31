@@ -1,0 +1,34 @@
+# Cursor Rules for Flutter AI Learning App
+
+## Project Context
+- Project: Flutter AI Learning App
+- Language: Dart/Flutter
+- Primary Platform: Android (Emulator)
+- Preferred Emulator: Pixel 6 - API 34 (pixel_6_-_api_34_naphat)
+- Issues: Pixel 7 - API 35 has exit code 1 error
+
+## Development Preferences
+- Use Android Emulator as primary testing platform
+- Prefer Thai language for UI (with English support)
+- Code style: Follow Flutter best practices
+- Use ValueNotifier for state management
+
+## Key Files
+- Main entry: lib/main.dart
+- State management: lib/user_data.dart
+- Services: lib/services/
+- Pages: lib/pages/
+- Widgets: lib/widgets/
+
+## Important Notes
+- Jira API integration available in lib/services/jira_service.dart
+- Voice service (flutter_tts) installed but not implemented
+- AI service placeholder exists but needs implementation
+- 72 deprecation warnings with withOpacity - should use withValues
+
+## Memory Preferences
+- Remember project structure and architecture
+- Remember user prefers Android development
+- Remember integration needs (Jira, AI, Voice)
+
+

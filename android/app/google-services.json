@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "392673254940",
+    "project_id": "cominiti",
+    "storage_bucket": "cominiti.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392673254940:android:88101ba2de91333e2389d9",
+        "android_client_info": {
+          "package_name": "com.example.flutter_ai_learning_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392673254940-l4o1vsn8oosntsko7i9vhc98l4fnp91q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZv7xULzfClNXBwbi9cLu4HPqYY7QgtO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392673254940-l4o1vsn8oosntsko7i9vhc98l4fnp91q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

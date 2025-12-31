@@ -1,0 +1,174 @@
+{
+  "language": "JP",
+  "level": "N5",
+  "lessons": [
+    {
+      "id": 1,
+      "title": "คำทักทายพื้นฐาน",
+      "level": "N5",
+      "language": "JP",
+      "questions": [
+        {
+          "question": "คำว่า 'สวัสดี' ภาษาญี่ปุ่นคือ?",
+          "options": ["Sayonara", "Konnichiwa", "Arigatou", "Sumimasen"],
+          "correctAnswerIndex": 1,
+          "explanation": "Konnichiwa (こんにちは) แปลว่า 'สวัสดี' ใช้ทักทายตอนกลางวัน",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "'Arigatou' แปลว่าอะไร?",
+          "options": ["ขอโทษ", "ลาก่อน", "ขอบคุณ", "อร่อย"],
+          "correctAnswerIndex": 2,
+          "explanation": "Arigatou (ありがとう) แปลว่า 'ขอบคุณ'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "คำว่า 'ลาก่อน' ภาษาญี่ปุ่นคือ?",
+          "options": ["Konnichiwa", "Sayonara", "Arigatou", "Oishii"],
+          "correctAnswerIndex": 1,
+          "explanation": "Sayonara (さようなら) แปลว่า 'ลาก่อน'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "'Sumimasen' แปลว่าอะไร?",
+          "options": ["ขอบคุณ", "ขอโทษ", "สวัสดี", "ลาก่อน"],
+          "correctAnswerIndex": 1,
+          "explanation": "Sumimasen (すみません) แปลว่า 'ขอโทษ'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "'Ogenki desu ka?' แปลว่าอะไร?",
+          "options": ["คุณสบายดีไหม?", "คุณชื่ออะไร?", "คุณอายุเท่าไหร่?", "คุณมาจากไหน?"],
+          "correctAnswerIndex": 0,
+          "explanation": "Ogenki desu ka? (お元気ですか?) แปลว่า 'คุณสบายดีไหม?'",
+          "type": "multipleChoice"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "ตัวเลขและจำนวน",
+      "level": "N5",
+      "language": "JP",
+      "questions": [
+        {
+          "question": "เลข 'หนึ่ง' ภาษาญี่ปุ่นคือ?",
+          "options": ["Ni", "San", "Ichi", "Yon"],
+          "correctAnswerIndex": 2,
+          "explanation": "Ichi (一) แปลว่า 'หนึ่ง'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "เลข 'สอง' ภาษาญี่ปุ่นคือ?",
+          "options": ["Ichi", "Ni", "San", "Go"],
+          "correctAnswerIndex": 1,
+          "explanation": "Ni (二) แปลว่า 'สอง'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "เลข 'สาม' ภาษาญี่ปุ่นคือ?",
+          "options": ["Ni", "San", "Yon", "Go"],
+          "correctAnswerIndex": 1,
+          "explanation": "San (三) แปลว่า 'สาม'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "เลข 'สิบ' ภาษาญี่ปุ่นคือ?",
+          "options": ["Kyuu", "Juu", "Hachi", "Nana"],
+          "correctAnswerIndex": 1,
+          "explanation": "Juu (十) แปลว่า 'สิบ'",
+          "type": "multipleChoice"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "สีและคำศัพท์พื้นฐาน",
+      "level": "N5",
+      "language": "JP",
+      "questions": [
+        {
+          "question": "สี 'แดง' คือ?",
+          "options": ["Aka", "Ao", "Shiro", "Kuro"],
+          "correctAnswerIndex": 0,
+          "explanation": "Aka (赤) แปลว่า 'แดง'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "สี 'น้ำเงิน' คือ?",
+          "options": ["Aka", "Ao", "Kiiro", "Midori"],
+          "correctAnswerIndex": 1,
+          "explanation": "Ao (青) แปลว่า 'น้ำเงิน'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "สี 'ขาว' คือ?",
+          "options": ["Kuro", "Shiro", "Aka", "Ao"],
+          "correctAnswerIndex": 1,
+          "explanation": "Shiro (白) แปลว่า 'ขาว'",
+          "type": "multipleChoice"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "ครอบครัวและคน",
+      "level": "N5",
+      "language": "JP",
+      "questions": [
+        {
+          "question": "'Okaasan' แปลว่าอะไร?",
+          "options": ["พ่อ", "แม่", "พี่ชาย", "น้องสาว"],
+          "correctAnswerIndex": 1,
+          "explanation": "Okaasan (お母さん) แปลว่า 'แม่'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "'Otousan' แปลว่าอะไร?",
+          "options": ["แม่", "พ่อ", "พี่สาว", "น้องชาย"],
+          "correctAnswerIndex": 1,
+          "explanation": "Otousan (お父さん) แปลว่า 'พ่อ'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "'Tomodachi' แปลว่าอะไร?",
+          "options": ["เพื่อน", "ครู", "นักเรียน", "หมอ"],
+          "correctAnswerIndex": 0,
+          "explanation": "Tomodachi (友達) แปลว่า 'เพื่อน'",
+          "type": "multipleChoice"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "อาหารและเครื่องดื่ม",
+      "level": "N5",
+      "language": "JP",
+      "questions": [
+        {
+          "question": "'Gohan' แปลว่าอะไร?",
+          "options": ["ข้าว", "น้ำ", "ขนม", "ผลไม้"],
+          "correctAnswerIndex": 0,
+          "explanation": "Gohan (ご飯) แปลว่า 'ข้าว' หรือ 'อาหาร'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "'Mizu' แปลว่าอะไร?",
+          "options": ["ข้าว", "น้ำ", "ชา", "กาแฟ"],
+          "correctAnswerIndex": 1,
+          "explanation": "Mizu (水) แปลว่า 'น้ำ'",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "'Oishii' แปลว่าอะไร?",
+          "options": ["อร่อย", "ไม่อร่อย", "ร้อน", "เย็น"],
+          "correctAnswerIndex": 0,
+          "explanation": "Oishii (美味しい) แปลว่า 'อร่อย'",
+          "type": "multipleChoice"
+        }
+      ]
+    }
+  ]
+}
+
+

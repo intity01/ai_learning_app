@@ -1,0 +1,81 @@
+{
+  "language": "EN",
+  "level": "Beginner",
+  "lessons": [
+    {
+      "id": 1,
+      "title": "Basic Greetings",
+      "level": "Beginner",
+      "language": "EN",
+      "questions": [
+        {
+          "question": "What does 'Hello' mean in Thai?",
+          "options": ["สวัสดี", "ขอบคุณ", "ขอโทษ", "ลาก่อน"],
+          "correctAnswerIndex": 0,
+          "explanation": "'Hello' means 'สวัสดี' in Thai",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "How do you say 'Thank you' in English?",
+          "options": ["Hello", "Thank you", "Sorry", "Goodbye"],
+          "correctAnswerIndex": 1,
+          "explanation": "'Thank you' is used to express gratitude",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "What does 'Goodbye' mean?",
+          "options": ["สวัสดี", "ขอบคุณ", "ลาก่อน", "ขอโทษ"],
+          "correctAnswerIndex": 2,
+          "explanation": "'Goodbye' means 'ลาก่อน' in Thai",
+          "type": "multipleChoice"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Numbers and Colors",
+      "level": "Beginner",
+      "language": "EN",
+      "questions": [
+        {
+          "question": "What is the number 'one'?",
+          "options": ["Two", "Three", "One", "Four"],
+          "correctAnswerIndex": 2,
+          "explanation": "'One' is the number 1",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "What color is 'red'?",
+          "options": ["สีแดง", "สีน้ำเงิน", "สีเขียว", "สีเหลือง"],
+          "correctAnswerIndex": 0,
+          "explanation": "'Red' is 'สีแดง' in Thai",
+          "type": "multipleChoice"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Family and Friends",
+      "level": "Beginner",
+      "language": "EN",
+      "questions": [
+        {
+          "question": "What does 'mother' mean?",
+          "options": ["พ่อ", "แม่", "พี่", "น้อง"],
+          "correctAnswerIndex": 1,
+          "explanation": "'Mother' means 'แม่' in Thai",
+          "type": "multipleChoice"
+        },
+        {
+          "question": "What does 'friend' mean?",
+          "options": ["เพื่อน", "ครู", "นักเรียน", "หมอ"],
+          "correctAnswerIndex": 0,
+          "explanation": "'Friend' means 'เพื่อน' in Thai",
+          "type": "multipleChoice"
+        }
+      ]
+    }
+  ]
+}
+
+

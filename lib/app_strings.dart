@@ -1,0 +1,86 @@
+import '../user_data.dart';
+
+class AppStrings {
+  // ข้อมูลคำแปล (Dictionary)
+  static const Map<String, Map<String, String>> _data = {
+    'th': {
+      'menu_home': 'หน้าแรก',
+      'menu_leaderboard': 'อันดับ',
+      'menu_lesson': 'บทเรียน',
+      'menu_vocab': 'คลังศัพท์',
+      'menu_blog': 'บล็อก',
+      'menu_more': 'เมนู',
+      'menu_profile': 'โปรไฟล์',
+      'menu_ai_tutor': 'AI ติวเตอร์',
+      'daily_quest': 'ภารกิจประจำวัน',
+      'practice_mode': 'โหมดฝึกฝน',
+      'continue_learning': 'เรียนต่อ',
+      'stats': 'สถิติ',
+      'settings': 'ตั้งค่า',
+      'dark_mode': 'โหมดมืด',
+      'language': 'ภาษา',
+      'reset': 'รีเซ็ตข้อมูล',
+      'history_title': 'ประวัติการเรียน',
+      'history_empty': 'ยังไม่มีประวัติการเรียน',
+      'edit_name': 'แก้ไขชื่อ',
+      'sign_out': 'ออกจากระบบ',
+      'app_language': 'ภาษาแอป',
+      'learning_language': 'ภาษาที่เรียน',
+      'change_app_language': 'เปลี่ยนภาษาของเมนูและข้อความในแอป',
+      'change_learning_language': 'เลือกภาษาที่คุณต้องการเรียนในแอป',
+      'current_language': 'ภาษาปัจจุบัน',
+      'select_language': 'เลือกภาษา',
+      'reset_all_data': 'รีเซ็ตข้อมูลทั้งหมด',
+      'friends': 'เพื่อน',
+      'friends_count': 'เพื่อน',
+      'view_all': 'ดูทั้งหมด',
+      'no_friends': 'ยังไม่มีเพื่อน',
+      'add_friends': 'เพิ่มเพื่อนเพื่อเริ่มสนทนา!',
+      'friends_groups': 'เพื่อน & กลุ่ม',
+      'community': 'ชุมชน',
+    },
+    'en': {
+      'menu_home': 'Home',
+      'menu_leaderboard': 'Leaderboard',
+      'menu_lesson': 'Lessons',
+      'menu_vocab': 'Vocabulary',
+      'menu_blog': 'Blog',
+      'menu_more': 'More',
+      'menu_profile': 'Profile',
+      'menu_ai_tutor': 'AI Tutor',
+      'daily_quest': 'Daily Quests',
+      'practice_mode': 'Practice Mode',
+      'continue_learning': 'CONTINUE',
+      'stats': 'Stats',
+      'settings': 'Settings',
+      'dark_mode': 'Dark Mode',
+      'language': 'Language',
+      'reset': 'Reset Data',
+      'history_title': 'History',
+      'history_empty': 'No learning history yet',
+      'edit_name': 'Edit Name',
+      'sign_out': 'Sign Out',
+      'app_language': 'App Language',
+      'learning_language': 'Learning Language',
+      'change_app_language': 'Change the language of menus and text in the app',
+      'change_learning_language': 'Select the language you want to learn in the app',
+      'current_language': 'Current Language',
+      'select_language': 'Select Language',
+      'reset_all_data': 'Reset All Data',
+      'friends': 'Friends',
+      'friends_count': 'Friends',
+      'view_all': 'View All',
+      'no_friends': 'No friends yet',
+      'add_friends': 'Add friends to start chatting!',
+      'friends_groups': 'Friends & Groups',
+      'community': 'Community',
+    },
+  };
+
+  // ฟังก์ชันดึงคำแปล (ต้องเรียกใน Widget ที่มี ValueListenableBuilder ถึงจะเปลี่ยนสดๆ)
+  static String t(String key) {
+    String lang = UserData.appLanguage.value;
+    // ถ้าไม่มีภาษานั้นให้ใช้ th เป็นหลัก
+    return _data[lang]?[key] ?? _data['th']?[key] ?? key;
+  }
+}
