@@ -212,7 +212,7 @@ class _CreateGroupPageState extends State<CreateGroupPage> {
                     runSpacing: 12,
                     children: ['JP', 'EN', 'CN', 'KR'].map((lang) {
                       final isSelected = _selectedLanguage == lang;
-                      final langName = UserData.targetLanguageToThaiName(lang);
+                      final langName = UserData.targetLanguageToDisplayName(lang);
                       final langFlag = lang == 'JP' ? '🇯🇵' : lang == 'EN' ? '🇬🇧' : lang == 'CN' ? '🇨🇳' : '🇰🇷';
                       return GestureDetector(
                         onTap: () => setState(() => _selectedLanguage = lang),

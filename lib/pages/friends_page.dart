@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../user_data.dart';
+import '../app_strings.dart';
 import '../services/friend_service.dart';
 import '../models/friend.dart';
 import 'friend_chat_page.dart';
@@ -40,7 +41,10 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
       appBar: AppBar(
         backgroundColor: const Color(0xFFF8F9FD),
         elevation: 0,
-        title: Text('เพื่อน & กลุ่ม', style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445))),
+        title: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(AppStrings.t('friends_groups'), style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445))),
+        ),
         centerTitle: true,
         leading: Container(
           margin: const EdgeInsets.all(8),
@@ -62,9 +66,15 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
           labelColor: const Color(0xFF58CC02),
           unselectedLabelColor: Colors.grey,
           labelStyle: GoogleFonts.kanit(fontWeight: FontWeight.bold),
-          tabs: const [
-            Tab(text: 'เพื่อน'),
-            Tab(text: 'คำขอ'),
+          tabs: [
+            ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Tab(text: AppStrings.t('friends')),
+            ),
+            ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Tab(text: AppStrings.t('friend_requests')),
+            ),
           ],
         ),
       ),
@@ -84,7 +94,10 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
         },
         backgroundColor: const Color(0xFF58CC02),
         icon: const Icon(Icons.person_add, color: Colors.white),
-        label: Text('เพิ่มเพื่อน', style: GoogleFonts.kanit(color: Colors.white, fontWeight: FontWeight.bold)),
+        label: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(AppStrings.t('add_friend'), style: GoogleFonts.kanit(color: Colors.white, fontWeight: FontWeight.bold)),
+        ),
       ),
     );
   }
@@ -106,9 +119,15 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
               children: [
                 Icon(Icons.people_outline, size: 80, color: Colors.grey.shade300),
                 const SizedBox(height: 16),
-                Text('ยังไม่มีเพื่อน', style: GoogleFonts.kanit(color: Colors.grey, fontSize: 18)),
+                ValueListenableBuilder<String>(
+                  valueListenable: UserData.appLanguage,
+                  builder: (context, lang, _) => Text(AppStrings.t('no_friends'), style: GoogleFonts.kanit(color: Colors.grey, fontSize: 18)),
+                ),
                 const SizedBox(height: 8),
-                Text('เพิ่มเพื่อนเพื่อเริ่มสนทนา!', style: GoogleFonts.kanit(color: Colors.grey.shade500)),
+                ValueListenableBuilder<String>(
+                  valueListenable: UserData.appLanguage,
+                  builder: (context, lang, _) => Text(AppStrings.t('add_friends'), style: GoogleFonts.kanit(color: Colors.grey.shade500)),
+                ),
               ],
             ),
           );
@@ -148,7 +167,10 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
               children: [
                 Icon(Icons.inbox_outlined, size: 80, color: Colors.grey.shade300),
                 const SizedBox(height: 16),
-                Text('ไม่มีคำขอเพื่อนใหม่', style: GoogleFonts.kanit(color: Colors.grey, fontSize: 18)),
+                ValueListenableBuilder<String>(
+                  valueListenable: UserData.appLanguage,
+                  builder: (context, lang, _) => Text(AppStrings.t('no_friend_requests'), style: GoogleFonts.kanit(color: Colors.grey, fontSize: 18)),
+                ),
               ],
             ),
           );
@@ -168,7 +190,7 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
   }
 
   Widget _buildFriendCard(Friend friend) {
-    final langName = UserData.targetLanguageToThaiName(friend.targetLanguage);
+    final langName = UserData.targetLanguageToDisplayName(friend.targetLanguage);
     final langFlag = friend.targetLanguage == 'JP' ? '🇯🇵' : friend.targetLanguage == 'EN' ? '🇬🇧' : friend.targetLanguage == 'CN' ? '🇨🇳' : '🇰🇷';
 
     return Container(
@@ -247,7 +269,10 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
                     children: [
                       const Icon(Icons.block, color: Colors.red, size: 20),
                       const SizedBox(width: 8),
-                      Text('บล็อก', style: GoogleFonts.kanit()),
+                      ValueListenableBuilder<String>(
+                        valueListenable: UserData.appLanguage,
+                        builder: (context, lang, _) => Text(AppStrings.t('block'), style: GoogleFonts.kanit()),
+                      ),
                     ],
                   ),
                   onTap: () => _blockFriend(friend.id),
@@ -257,7 +282,10 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
                     children: [
                       const Icon(Icons.delete, color: Colors.red, size: 20),
                       const SizedBox(width: 8),
-                      Text('ลบเพื่อน', style: GoogleFonts.kanit()),
+                      ValueListenableBuilder<String>(
+                        valueListenable: UserData.appLanguage,
+                        builder: (context, lang, _) => Text(AppStrings.t('delete_friend'), style: GoogleFonts.kanit()),
+                      ),
                     ],
                   ),
                   onTap: () => _removeFriend(friend.id),
@@ -290,19 +318,28 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
             : null,
         ),
         title: Text(friend.name, style: GoogleFonts.kanit(fontWeight: FontWeight.bold, fontSize: 16)),
-        subtitle: Text('ต้องการเป็นเพื่อนกับคุณ', style: GoogleFonts.kanit(fontSize: 12, color: Colors.grey.shade600)),
+        subtitle: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(AppStrings.t('wants_to_be_friend'), style: GoogleFonts.kanit(fontSize: 12, color: Colors.grey.shade600)),
+        ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextButton(
               onPressed: () => _rejectRequest(requestId),
-              child: Text('ปฏิเสธ', style: GoogleFonts.kanit(color: Colors.grey)),
+              child: ValueListenableBuilder<String>(
+                valueListenable: UserData.appLanguage,
+                builder: (context, lang, _) => Text(AppStrings.t('reject'), style: GoogleFonts.kanit(color: Colors.grey)),
+              ),
             ),
             const SizedBox(width: 8),
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF58CC02)),
               onPressed: () => _acceptRequest(requestId),
-              child: Text('ยอมรับ', style: GoogleFonts.kanit(color: Colors.white)),
+              child: ValueListenableBuilder<String>(
+                valueListenable: UserData.appLanguage,
+                builder: (context, lang, _) => Text(AppStrings.t('accept'), style: GoogleFonts.kanit(color: Colors.white)),
+              ),
             ),
           ],
         ),
@@ -315,22 +352,42 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
       context: context,
       builder: (context) => AlertDialog(
         title: Text(isVideo ? 'Video Call' : 'Voice Call', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
-        content: Text('โทรหา ${friend.name}?', style: GoogleFonts.kanit()),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('ยกเลิก', style: GoogleFonts.kanit()),
+        content: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            '${AppStrings.t('call')} ${friend.name}?',
+            style: GoogleFonts.kanit(),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: isVideo ? Colors.red : Colors.green),
-            onPressed: () {
-              Navigator.pop(context);
-              // TODO: เริ่ม video/voice call
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('เริ่ม ${isVideo ? 'Video' : 'Voice'} Call กับ ${friend.name}', style: GoogleFonts.kanit())),
-              );
-            },
-            child: Text('โทร', style: GoogleFonts.kanit(color: Colors.white)),
+        ),
+        actions: [
+          ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(AppStrings.t('cancel'), style: GoogleFonts.kanit()),
+            ),
+          ),
+          ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: isVideo ? Colors.red : Colors.green),
+              onPressed: () {
+                Navigator.pop(context);
+                // TODO: เริ่ม video/voice call
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: ValueListenableBuilder<String>(
+                      valueListenable: UserData.appLanguage,
+                      builder: (context, lang, _) => Text(
+                        '${AppStrings.t('start')} ${isVideo ? 'Video' : 'Voice'} Call ${AppStrings.t('with')} ${friend.name}',
+                        style: GoogleFonts.kanit(),
+                      ),
+                    ),
+                  ),
+                );
+              },
+              child: Text(AppStrings.t('call_button'), style: GoogleFonts.kanit(color: Colors.white)),
+            ),
           ),
         ],
       ),
@@ -342,7 +399,10 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
     setState(() {});
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('ยอมรับคำขอเพื่อนแล้ว')),
+        SnackBar(content: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(AppStrings.t('accept_friend_request')),
+        )),
       );
     }
   }
@@ -356,14 +416,26 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('ลบเพื่อน', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
-        content: Text('คุณแน่ใจหรือไม่?', style: GoogleFonts.kanit()),
+        title: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(AppStrings.t('delete_friend'), style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
+        ),
+        content: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(AppStrings.t('are_you_sure'), style: GoogleFonts.kanit()),
+        ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: Text('ยกเลิก', style: GoogleFonts.kanit())),
+          TextButton(onPressed: () => Navigator.pop(context, false), child: ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => Text(AppStrings.t('cancel'), style: GoogleFonts.kanit()),
+          )),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
             onPressed: () => Navigator.pop(context, true),
-            child: Text('ลบ', style: GoogleFonts.kanit(color: Colors.white)),
+            child: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(AppStrings.t('delete'), style: GoogleFonts.kanit(color: Colors.white)),
+            ),
           ),
         ],
       ),
@@ -379,14 +451,35 @@ class _FriendsPageState extends State<FriendsPage> with SingleTickerProviderStat
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('บล็อกเพื่อน', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
-        content: Text('คุณแน่ใจหรือไม่?', style: GoogleFonts.kanit()),
+        title: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('block_friend'),
+            style: GoogleFonts.kanit(fontWeight: FontWeight.bold),
+          ),
+        ),
+        content: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('are_you_sure'),
+            style: GoogleFonts.kanit(),
+          ),
+        ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: Text('ยกเลิก', style: GoogleFonts.kanit())),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            onPressed: () => Navigator.pop(context, true),
-            child: Text('บล็อก', style: GoogleFonts.kanit(color: Colors.white)),
+          ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(AppStrings.t('cancel'), style: GoogleFonts.kanit()),
+            ),
+          ),
+          ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(AppStrings.t('block'), style: GoogleFonts.kanit(color: Colors.white)),
+            ),
           ),
         ],
       ),

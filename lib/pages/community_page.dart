@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../user_data.dart';
+import '../app_strings.dart';
 import '../services/community_service.dart';
 import '../models/community_room.dart';
 import '../models/community_group.dart';
@@ -44,9 +45,12 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
       appBar: AppBar(
         backgroundColor: const Color(0xFFF8F9FD),
         elevation: 0,
-        title: Text(
-          'ชุมชน',
-          style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+        title: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('community'),
+            style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+          ),
         ),
         centerTitle: true,
         leading: Container(
@@ -69,10 +73,19 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
           labelColor: const Color(0xFF58CC02),
           unselectedLabelColor: Colors.grey,
           labelStyle: GoogleFonts.kanit(fontWeight: FontWeight.bold),
-          tabs: const [
-            Tab(text: 'ห้องสนทนา'),
-            Tab(text: 'กลุ่ม'),
-            Tab(text: 'ของฉัน'),
+          tabs: [
+            ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Tab(text: AppStrings.t('chat_room')),
+            ),
+            ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Tab(text: AppStrings.t('group')),
+            ),
+            ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Tab(text: AppStrings.t('mine')),
+            ),
           ],
         ),
       ),
@@ -89,14 +102,26 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
               onPressed: () => _showCreateRoomDialog(context),
               backgroundColor: const Color(0xFF58CC02),
               icon: const Icon(Icons.video_call, color: Colors.white),
-              label: Text('สร้างห้อง', style: GoogleFonts.kanit(color: Colors.white, fontWeight: FontWeight.bold)),
+              label: ValueListenableBuilder<String>(
+                valueListenable: UserData.appLanguage,
+                builder: (context, lang, _) => Text(
+                  AppStrings.t('create_room'),
+                  style: GoogleFonts.kanit(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
             )
           : _tabController.index == 1
               ? FloatingActionButton.extended(
                   onPressed: () => _showCreateGroupDialog(context),
                   backgroundColor: const Color(0xFF1CB0F6),
                   icon: const Icon(Icons.group_add, color: Colors.white),
-                  label: Text('สร้างกลุ่ม', style: GoogleFonts.kanit(color: Colors.white, fontWeight: FontWeight.bold)),
+                  label: ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => Text(
+                      AppStrings.t('create_group'),
+                      style: GoogleFonts.kanit(color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 )
               : null,
     );
@@ -122,9 +147,21 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
                   children: [
                     Icon(Icons.video_library_outlined, size: 80, color: Colors.grey.shade300),
                     const SizedBox(height: 16),
-                    Text('ยังไม่มีห้อง', style: GoogleFonts.kanit(color: Colors.grey, fontSize: 18)),
+                    ValueListenableBuilder<String>(
+                      valueListenable: UserData.appLanguage,
+                      builder: (context, lang, _) => Text(
+                        AppStrings.t('no_rooms_yet'),
+                        style: GoogleFonts.kanit(color: Colors.grey, fontSize: 18),
+                      ),
+                    ),
                     const SizedBox(height: 8),
-                    Text('สร้างห้องใหม่เพื่อเริ่มสนทนา!', style: GoogleFonts.kanit(color: Colors.grey.shade500)),
+                    ValueListenableBuilder<String>(
+                      valueListenable: UserData.appLanguage,
+                      builder: (context, lang, _) => Text(
+                        AppStrings.t('create_room_to_start'),
+                        style: GoogleFonts.kanit(color: Colors.grey.shade500),
+                      ),
+                    ),
                   ],
                 ),
               );
@@ -248,7 +285,7 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
   }
 
   Widget _buildRoomCard(CommunityRoom room) {
-    final langName = UserData.targetLanguageToThaiName(room.language);
+    final langName = UserData.targetLanguageToDisplayName(room.language);
     final langFlag = room.language == 'JP' ? '🇯🇵' : room.language == 'EN' ? '🇬🇧' : room.language == 'CN' ? '🇨🇳' : '🇰🇷';
     final typeIcon = room.type == RoomType.video ? Icons.videocam : room.type == RoomType.voice ? Icons.call : Icons.chat;
     final typeColor = room.type == RoomType.video ? Colors.red : room.type == RoomType.voice ? Colors.green : Colors.blue;
@@ -305,7 +342,7 @@ class _CommunityPageState extends State<CommunityPage> with SingleTickerProvider
   }
 
   Widget _buildGroupCard(CommunityGroup group) {
-    final langName = UserData.targetLanguageToThaiName(group.language);
+    final langName = UserData.targetLanguageToDisplayName(group.language);
     final langFlag = group.language == 'JP' ? '🇯🇵' : group.language == 'EN' ? '🇬🇧' : group.language == 'CN' ? '🇨🇳' : '🇰🇷';
 
     return Container(

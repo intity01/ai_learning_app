@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../user_data.dart';
+import '../app_strings.dart';
 import 'lesson_detail_page.dart';
 import '../services/lesson_manager.dart';
 
@@ -42,9 +43,12 @@ class LessonListPage extends StatelessWidget {
             ),
           title: Column(
             children: [
-              Text(
-                'แผนที่การเรียนรู้',
-                style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+              ValueListenableBuilder<String>(
+                valueListenable: UserData.appLanguage,
+                builder: (context, lang, _) => Text(
+                  AppStrings.t('learning_map'),
+                  style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+                ),
               ),
               // แสดงชื่อภาษาที่เลือก
               Text(
@@ -61,18 +65,7 @@ class LessonListPage extends StatelessWidget {
   }
 
   String _getLanguageDisplay(String langCode) {
-    switch (langCode) {
-      case 'JP':
-        return '🇯🇵 ภาษาญี่ปุ่น';
-      case 'EN':
-        return '🇬🇧 ภาษาอังกฤษ';
-      case 'CN':
-        return '🇨🇳 ภาษาจีน';
-      case 'KR':
-        return '🇰🇷 ภาษาเกาหลี';
-      default:
-        return '🇯🇵 ภาษาญี่ปุ่น';
-    }
+    return UserData.targetLanguageToDisplayNameWithFlag(langCode);
   }
 
   /// ดึงระดับสำหรับภาษาที่เลือก
@@ -132,12 +125,13 @@ class LessonListPage extends StatelessWidget {
       }).toList();
     } else {
       // Fallback: แสดงบทเรียน default
+      final lang = UserData.appLanguage.value;
       lessons = [
-        {'id': 1, 'title': 'พื้นฐานการทักทาย', 'desc': 'สวัสดี, ขอบคุณ, ขอโทษ', 'icon': Icons.waving_hand_rounded},
-        {'id': 2, 'title': 'แนะนำตัวเอง', 'desc': 'ชื่อ, อายุ, อาชีพ, งานอดิเรก', 'icon': Icons.person_pin_rounded},
-        {'id': 3, 'title': 'ตัวเลขและราคา', 'desc': 'นับเลข, ซื้อของ, ต่อราคา', 'icon': Icons.shopping_bag_rounded},
-        {'id': 4, 'title': 'ร้านอาหาร', 'desc': 'สั่งอาหาร, รสชาติ, เช็คบิล', 'icon': Icons.restaurant_menu_rounded},
-        {'id': 5, 'title': 'การเดินทาง', 'desc': 'รถไฟ, แท็กซี่, ถามทาง', 'icon': Icons.train_rounded},
+        {'id': 1, 'title': lang == 'th' ? 'พื้นฐานการทักทาย' : AppStrings.t('lesson_basic_greetings'), 'desc': lang == 'th' ? 'สวัสดี, ขอบคุณ, ขอโทษ' : 'Hello, Thank you, Sorry', 'icon': Icons.waving_hand_rounded},
+        {'id': 2, 'title': lang == 'th' ? 'แนะนำตัวเอง' : AppStrings.t('lesson_introduce_self'), 'desc': lang == 'th' ? 'ชื่อ, อายุ, อาชีพ, งานอดิเรก' : 'Name, Age, Occupation, Hobby', 'icon': Icons.person_pin_rounded},
+        {'id': 3, 'title': lang == 'th' ? 'ตัวเลขและราคา' : AppStrings.t('lesson_numbers_prices'), 'desc': lang == 'th' ? 'นับเลข, ซื้อของ, ต่อราคา' : 'Count numbers, Shopping, Bargaining', 'icon': Icons.shopping_bag_rounded},
+        {'id': 4, 'title': lang == 'th' ? 'ร้านอาหาร' : AppStrings.t('lesson_restaurant'), 'desc': lang == 'th' ? 'สั่งอาหาร, รสชาติ, เช็คบิล' : 'Order food, Taste, Check bill', 'icon': Icons.restaurant_menu_rounded},
+        {'id': 5, 'title': lang == 'th' ? 'การเดินทาง' : AppStrings.t('lesson_travel'), 'desc': lang == 'th' ? 'รถไฟ, แท็กซี่, ถามทาง' : 'Train, Taxi, Ask directions', 'icon': Icons.train_rounded},
       ];
     }
 
@@ -259,7 +253,13 @@ class LessonListPage extends StatelessWidget {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("🔒 เคลียร์ด่านก่อนหน้าให้จบก่อนนะ!", style: GoogleFonts.kanit()),
+            content: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                "🔒 ${AppStrings.t('lesson_clear_previous')}",
+                style: GoogleFonts.kanit(),
+              ),
+            ),
             backgroundColor: Colors.grey.shade800,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

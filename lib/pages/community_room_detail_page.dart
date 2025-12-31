@@ -165,7 +165,7 @@ class _CommunityRoomDetailPageState extends State<CommunityRoomDetailPage> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     final isParticipant = user != null && _room.participantIds.contains(user.uid);
-    final langName = UserData.targetLanguageToThaiName(_room.language);
+    final langName = UserData.targetLanguageToDisplayName(_room.language);
     final langFlag = _room.language == 'JP' ? '🇯🇵' : _room.language == 'EN' ? '🇬🇧' : _room.language == 'CN' ? '🇨🇳' : '🇰🇷';
     final roomTypeIcon = _room.type == RoomType.video 
         ? Icons.videocam 

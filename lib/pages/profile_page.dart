@@ -62,9 +62,12 @@ class _ProfilePageState extends State<ProfilePage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              success ? 'ส่งคำขอเพื่อนแล้ว' : 'มีคำขออยู่แล้ว',
-              style: GoogleFonts.kanit(),
+            content: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                success ? AppStrings.t('friend_request_sent') : AppStrings.t('friend_request_exists'),
+                style: GoogleFonts.kanit(),
+              ),
             ),
             backgroundColor: success ? const Color(0xFF58CC02) : Colors.orange,
           ),
@@ -74,7 +77,13 @@ class _ProfilePageState extends State<ProfilePage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('เกิดข้อผิดพลาด: $e', style: GoogleFonts.kanit()),
+            content: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                '${AppStrings.t('error_occurred')}: $e',
+                style: GoogleFonts.kanit(),
+              ),
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -86,18 +95,36 @@ class _ProfilePageState extends State<ProfilePage> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('ออกจากระบบ?', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
-        content: Text('คุณต้องการออกจากระบบใช่ไหม?\nข้อมูลการเรียนจะยังคงอยู่', style: GoogleFonts.kanit()),
+        title: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('sign_out_confirm').split('\n')[0] + '?',
+            style: GoogleFonts.kanit(fontWeight: FontWeight.bold),
+          ),
+        ),
+        content: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('sign_out_confirm'),
+            style: GoogleFonts.kanit(),
+          ),
+        ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text('ยกเลิก', style: GoogleFonts.kanit(color: Colors.grey)),
+          ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(AppStrings.t('cancel'), style: GoogleFonts.kanit(color: Colors.grey)),
+            ),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
-            onPressed: () => Navigator.pop(context, true),
-            child: Text('ออกจากระบบ', style: GoogleFonts.kanit(color: Colors.white)),
+          ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(AppStrings.t('sign_out'), style: GoogleFonts.kanit(color: Colors.white)),
+            ),
           ),
         ],
       ),
@@ -113,7 +140,13 @@ class _ProfilePageState extends State<ProfilePage> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('เกิดข้อผิดพลาด: $e', style: GoogleFonts.kanit()),
+              content: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                '${AppStrings.t('error_occurred')}: $e',
+                style: GoogleFonts.kanit(),
+              ),
+            ),
               backgroundColor: Colors.red,
             ),
           );
@@ -293,12 +326,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'เพื่อน (${_friends.length})',
-                            style: GoogleFonts.kanit(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xFF2B3445),
+                          ValueListenableBuilder<String>(
+                            valueListenable: UserData.appLanguage,
+                            builder: (context, lang, _) => Text(
+                              '${AppStrings.t('friends')} (${_friends.length})',
+                              style: GoogleFonts.kanit(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF2B3445),
+                              ),
                             ),
                           ),
                           TextButton.icon(
@@ -306,7 +342,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               Navigator.pushNamed(context, '/friends').then((_) => _loadFriends());
                             },
                             icon: const Icon(Icons.people, size: 18),
-                            label: Text('ดูทั้งหมด', style: GoogleFonts.kanit(fontSize: 12)),
+                            label: ValueListenableBuilder<String>(
+                              valueListenable: UserData.appLanguage,
+                              builder: (context, lang, _) => Text(
+                                AppStrings.t('view_all'),
+                                style: GoogleFonts.kanit(fontSize: 12),
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -584,35 +626,56 @@ class _ProfilePageState extends State<ProfilePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('แก้ไขชื่อของคุณ', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
-        content: TextField(
-          controller: controller,
-          style: GoogleFonts.kanit(),
-          decoration: const InputDecoration(
-            labelText: 'ชื่อใหม่',
-            border: OutlineInputBorder(),
+        title: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('edit_your_name'),
+            style: GoogleFonts.kanit(fontWeight: FontWeight.bold),
+          ),
+        ),
+        content: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => TextField(
+            controller: controller,
+            style: GoogleFonts.kanit(),
+            decoration: InputDecoration(
+              labelText: AppStrings.t('new_name'),
+              border: const OutlineInputBorder(),
+            ),
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('ยกเลิก', style: GoogleFonts.kanit()),
+          ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(AppStrings.t('cancel'), style: GoogleFonts.kanit()),
+            ),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF58CC02)),
-            onPressed: () {
-              if (controller.text.isNotEmpty) {
-                UserData.updateName(controller.text);
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('เปลี่ยนชื่อเรียบร้อยแล้ว', style: GoogleFonts.kanit()),
-                    backgroundColor: const Color(0xFF58CC02),
-                  ),
-                );
-              }
-            },
-            child: Text('บันทึก', style: GoogleFonts.kanit(color: Colors.white)),
+          ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF58CC02)),
+              onPressed: () {
+                if (controller.text.isNotEmpty) {
+                  UserData.updateName(controller.text);
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: ValueListenableBuilder<String>(
+                        valueListenable: UserData.appLanguage,
+                        builder: (context, lang, _) => Text(
+                          AppStrings.t('name_changed_success'),
+                          style: GoogleFonts.kanit(),
+                        ),
+                      ),
+                      backgroundColor: const Color(0xFF58CC02),
+                    ),
+                  );
+                }
+              },
+              child: Text(AppStrings.t('save'), style: GoogleFonts.kanit(color: Colors.white)),
+            ),
           ),
         ],
       ),
@@ -623,7 +686,13 @@ class _ProfilePageState extends State<ProfilePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('เลือก Avatar', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
+        title: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('select_avatar'),
+            style: GoogleFonts.kanit(fontWeight: FontWeight.bold),
+          ),
+        ),
         content: SizedBox(
           width: double.maxFinite,
           child: GridView.builder(
@@ -642,7 +711,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('เปลี่ยน Avatar เรียบร้อยแล้ว', style: GoogleFonts.kanit()),
+                      content: ValueListenableBuilder<String>(
+                        valueListenable: UserData.appLanguage,
+                        builder: (context, lang, _) => Text(
+                          AppStrings.t('avatar_changed_success'),
+                          style: GoogleFonts.kanit(),
+                        ),
+                      ),
                       backgroundColor: const Color(0xFF58CC02),
                       duration: const Duration(seconds: 1),
                     ),
@@ -666,9 +741,12 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('ปิด', style: GoogleFonts.kanit()),
+          ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(AppStrings.t('close'), style: GoogleFonts.kanit()),
+            ),
           ),
         ],
       ),

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/blog_post.dart';
 import '../user_data.dart';
+import '../app_strings.dart';
 import '../services/blog_service.dart';
 import 'create_blog_post_page.dart';
 
@@ -38,7 +39,13 @@ class _BlogFeedPageState extends State<BlogFeedPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('เกิดข้อผิดพลาด: $e', style: GoogleFonts.kanit()),
+            content: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                '${AppStrings.t('error_occurred')}: $e',
+                style: GoogleFonts.kanit(),
+              ),
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -60,7 +67,13 @@ class _BlogFeedPageState extends State<BlogFeedPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('เกิดข้อผิดพลาด: $e', style: GoogleFonts.kanit()),
+            content: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                '${AppStrings.t('error_occurred')}: $e',
+                style: GoogleFonts.kanit(),
+              ),
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -90,12 +103,15 @@ class _BlogFeedPageState extends State<BlogFeedPage> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
-        title: Text(
-          'บล็อก & แนวร่วม',
-          style: GoogleFonts.kanit(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF2B3445),
+        title: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('blog_allies'),
+            style: GoogleFonts.kanit(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF2B3445),
+            ),
           ),
         ),
         actions: [
@@ -143,7 +159,7 @@ class _BlogFeedPageState extends State<BlogFeedPage> {
             Icon(Icons.article_outlined, size: 64, color: Colors.grey.shade300),
             const SizedBox(height: 16),
             Text(
-              lang == 'th' ? 'ยังไม่มีโพสต์' : 'No posts yet',
+              AppStrings.t('no_posts_yet'),
               style: GoogleFonts.kanit(
                 fontSize: 18,
                 color: Colors.grey.shade600,
@@ -151,7 +167,7 @@ class _BlogFeedPageState extends State<BlogFeedPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              lang == 'th' ? 'เริ่มต้นโพสต์หาแนวร่วมกันเลย!' : 'Start posting to find allies!',
+              AppStrings.t('start_posting_to_find_allies'),
               style: GoogleFonts.kanit(
                 fontSize: 14,
                 color: Colors.grey.shade500,
@@ -169,7 +185,13 @@ class _BlogFeedPageState extends State<BlogFeedPage> {
                 }
               },
               icon: const Icon(Icons.add),
-              label: Text(lang == 'th' ? 'สร้างโพสต์' : 'Create Post', style: GoogleFonts.kanit()),
+              label: ValueListenableBuilder<String>(
+                valueListenable: UserData.appLanguage,
+                builder: (context, lang, _) => Text(
+                  AppStrings.t('create_post'),
+                  style: GoogleFonts.kanit(),
+                ),
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF58CC02),
                 foregroundColor: Colors.white,
@@ -359,11 +381,14 @@ class _BlogFeedPageState extends State<BlogFeedPage> {
                       // TODO: Share functionality
                     },
                     icon: Icon(Icons.share_outlined, color: Colors.grey.shade600, size: 20),
-                    label: Text(
-                      'แชร์',
-                      style: GoogleFonts.kanit(
-                        fontSize: 14,
-                        color: Colors.grey.shade600,
+                    label: ValueListenableBuilder<String>(
+                      valueListenable: UserData.appLanguage,
+                      builder: (context, lang, _) => Text(
+                        AppStrings.t('share'),
+                        style: GoogleFonts.kanit(
+                          fontSize: 14,
+                          color: Colors.grey.shade600,
+                        ),
                       ),
                     ),
                   ),
@@ -380,18 +405,19 @@ class _BlogFeedPageState extends State<BlogFeedPage> {
     final now = DateTime.now();
     final difference = now.difference(dateTime);
 
+    final lang = UserData.appLanguage.value;
     if (difference.inDays > 365) {
-      return '${(difference.inDays / 365).floor()} ปีที่แล้ว';
+      return '${(difference.inDays / 365).floor()} ${AppStrings.t('years_ago')}';
     } else if (difference.inDays > 30) {
-      return '${(difference.inDays / 30).floor()} เดือนที่แล้ว';
+      return '${(difference.inDays / 30).floor()} ${AppStrings.t('months_ago')}';
     } else if (difference.inDays > 0) {
-      return '${difference.inDays} วันที่แล้ว';
+      return '${difference.inDays} ${AppStrings.t('days_ago')}';
     } else if (difference.inHours > 0) {
-      return '${difference.inHours} ชั่วโมงที่แล้ว';
+      return '${difference.inHours} ${AppStrings.t('hours_ago')}';
     } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes} นาทีที่แล้ว';
+      return '${difference.inMinutes} ${AppStrings.t('minutes_ago')}';
     } else {
-      return 'เมื่อสักครู่';
+      return AppStrings.t('just_now');
     }
   }
 }

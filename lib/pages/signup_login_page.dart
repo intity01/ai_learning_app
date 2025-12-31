@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import '../services/auth_service_firebase.dart'; // ✅ ใช้ Firebase แทน SharedPreferences
 import '../main_screen.dart';
 import '../user_data.dart'; // ✅ สำหรับบันทึกว่า Onboarding เสร็จแล้ว
+import '../app_strings.dart';
 
 /// หน้า Sign Up / Login
 /// ใช้ Lazy Registration - ให้ลองก่อน ค่อยสมัคร
@@ -64,7 +65,13 @@ class _SignUpLoginPageState extends State<SignUpLoginPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('เกิดข้อผิดพลาด: $e', style: GoogleFonts.kanit()),
+            content: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                '${AppStrings.t('error_occurred')}: $e',
+                style: GoogleFonts.kanit(),
+              ),
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -93,20 +100,26 @@ class _SignUpLoginPageState extends State<SignUpLoginPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
                 const Gap(20),
-                Text(
-                  "เข้าสู่ระบบ",
-                  style: GoogleFonts.kanit(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF2B3445),
+                ValueListenableBuilder<String>(
+                  valueListenable: UserData.appLanguage,
+                  builder: (context, lang, _) => Text(
+                    AppStrings.t('sign_in'),
+                    style: GoogleFonts.kanit(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF2B3445),
+                    ),
                   ),
                 ),
                 const Gap(8),
-                Text(
-                  "เข้าสู่ระบบด้วย Google เพื่อบันทึกความคืบหน้าของคุณ",
-                  style: GoogleFonts.kanit(
-                    fontSize: 16,
-                    color: Colors.grey.shade600,
+                ValueListenableBuilder<String>(
+                  valueListenable: UserData.appLanguage,
+                  builder: (context, lang, _) => Text(
+                    AppStrings.t('sign_in_with_google_to_save'),
+                    style: GoogleFonts.kanit(
+                      fontSize: 16,
+                      color: Colors.grey.shade600,
+                    ),
                   ),
                 ),
                 const Gap(40),
@@ -142,12 +155,15 @@ class _SignUpLoginPageState extends State<SignUpLoginPage> {
                               valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF4285F4)),
                             ),
                           )
-                        : Text(
-                            "เข้าสู่ระบบด้วย Google",
-                            style: GoogleFonts.kanit(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: const Color(0xFF2B3445),
+                        : ValueListenableBuilder<String>(
+                            valueListenable: UserData.appLanguage,
+                            builder: (context, lang, _) => Text(
+                              AppStrings.t('sign_in_with_google'),
+                              style: GoogleFonts.kanit(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF2B3445),
+                              ),
                             ),
                           ),
                   ),
@@ -170,11 +186,14 @@ class _SignUpLoginPageState extends State<SignUpLoginPage> {
                         );
                       }
                     },
-                    child: Text(
-                      "ข้ามไปก่อน (ลองใช้ฟรี)",
-                      style: GoogleFonts.kanit(
-                        color: Colors.grey.shade600,
-                        fontSize: 14,
+                    child: ValueListenableBuilder<String>(
+                      valueListenable: UserData.appLanguage,
+                      builder: (context, lang, _) => Text(
+                        AppStrings.t('skip_for_now'),
+                        style: GoogleFonts.kanit(
+                          color: Colors.grey.shade600,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ),

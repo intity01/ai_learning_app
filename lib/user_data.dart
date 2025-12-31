@@ -242,6 +242,47 @@ class UserData {
     }
   }
 
+  // แปลง targetLanguage code เป็นชื่อภาษาตาม appLanguage ที่เลือก
+  static String targetLanguageToDisplayName(String langCode) {
+    final appLang = appLanguage.value;
+    if (appLang == 'en') {
+      return targetLanguageToEnglishName(langCode);
+    } else {
+      return targetLanguageToThaiName(langCode);
+    }
+  }
+
+  // แปลง targetLanguage code เป็นชื่อภาษาพร้อม flag emoji ตาม appLanguage ที่เลือก
+  static String targetLanguageToDisplayNameWithFlag(String langCode) {
+    final appLang = appLanguage.value;
+    String flag = '';
+    String name = '';
+    
+    switch (langCode) {
+      case 'JP':
+        flag = '🇯🇵';
+        name = appLang == 'en' ? 'Japanese' : 'ภาษาญี่ปุ่น';
+        break;
+      case 'EN':
+        flag = '🇬🇧';
+        name = appLang == 'en' ? 'English' : 'ภาษาอังกฤษ';
+        break;
+      case 'CN':
+        flag = '🇨🇳';
+        name = appLang == 'en' ? 'Chinese' : 'ภาษาจีน';
+        break;
+      case 'KR':
+        flag = '🇰🇷';
+        name = appLang == 'en' ? 'Korean' : 'ภาษาเกาหลี';
+        break;
+      default:
+        flag = '🇯🇵';
+        name = appLang == 'en' ? 'Japanese' : 'ภาษาญี่ปุ่น';
+    }
+    
+    return '$flag $name';
+  }
+
   static Future<void> toggleTheme() async {
     final prefs = await SharedPreferences.getInstance();
     isDarkMode.value = !isDarkMode.value;

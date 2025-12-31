@@ -70,7 +70,13 @@ class _SettingsPageState extends State<SettingsPage> {
         
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('เข้าสู่ระบบสำเร็จ!', style: GoogleFonts.kanit()),
+            content: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                AppStrings.t('sign_in_success'),
+                style: GoogleFonts.kanit(),
+              ),
+            ),
             backgroundColor: const Color(0xFF58CC02),
             duration: const Duration(seconds: 2),
           ),
@@ -96,21 +102,24 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> _handleSignOut() async {
     final confirm = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('ออกจากระบบ?', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
-        content: Text('คุณต้องการออกจากระบบใช่ไหม?\nข้อมูลการเรียนจะยังคงอยู่', style: GoogleFonts.kanit()),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text('ยกเลิก', style: GoogleFonts.kanit(color: Colors.grey)),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
-            onPressed: () => Navigator.pop(context, true),
-            child: Text('ออกจากระบบ', style: GoogleFonts.kanit(color: Colors.white)),
-          ),
-        ],
+      builder: (context) => ValueListenableBuilder<String>(
+        valueListenable: UserData.appLanguage,
+        builder: (context, lang, _) => AlertDialog(
+          title: Text('${AppStrings.t('sign_out')}?', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
+          content: Text(AppStrings.t('sign_out_confirm'), style: GoogleFonts.kanit()),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(AppStrings.t('cancel'), style: GoogleFonts.kanit(color: Colors.grey)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(AppStrings.t('sign_out'), style: GoogleFonts.kanit(color: Colors.white)),
+            ),
+          ],
+        ),
       ),
     );
 
@@ -126,7 +135,13 @@ class _SettingsPageState extends State<SettingsPage> {
           
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('ออกจากระบบเรียบร้อยแล้ว', style: GoogleFonts.kanit()),
+              content: ValueListenableBuilder<String>(
+                valueListenable: UserData.appLanguage,
+                builder: (context, lang, _) => Text(
+                  AppStrings.t('sign_out_success'),
+                  style: GoogleFonts.kanit(),
+                ),
+              ),
               backgroundColor: Colors.grey.shade800,
               duration: const Duration(seconds: 2),
             ),
@@ -184,9 +199,12 @@ class _SettingsPageState extends State<SettingsPage> {
                       children: [
                         Icon(Icons.account_circle, color: const Color(0xFF58CC02), size: 20),
                         const SizedBox(width: 8),
-                        Text(
-                          "บัญชีที่เชื่อมต่อ",
-                          style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+                        ValueListenableBuilder<String>(
+                          valueListenable: UserData.appLanguage,
+                          builder: (context, lang, _) => Text(
+                            AppStrings.t('connected_account'),
+                            style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+                          ),
                         ),
                       ],
                     ),
@@ -218,7 +236,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   const SizedBox(width: 4),
                                   Expanded(
                                     child: Text(
-                                      _currentUser!.email ?? 'ไม่มีอีเมล',
+                                      _currentUser!.email ?? AppStrings.t('no_email'),
                                       style: GoogleFonts.kanit(color: Colors.grey.shade600, fontSize: 13),
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -262,7 +280,13 @@ class _SettingsPageState extends State<SettingsPage> {
                       child: OutlinedButton.icon(
                         onPressed: _handleSignOut,
                         icon: const Icon(Icons.logout, size: 18),
-                        label: Text('ออกจากระบบ', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
+                        label: ValueListenableBuilder<String>(
+                          valueListenable: UserData.appLanguage,
+                          builder: (context, lang, _) => Text(
+                            AppStrings.t('sign_out'),
+                            style: GoogleFonts.kanit(fontWeight: FontWeight.bold),
+                          ),
+                        ),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.redAccent,
                           side: BorderSide(color: Colors.redAccent.withValues(alpha: 0.5)),
@@ -291,9 +315,12 @@ class _SettingsPageState extends State<SettingsPage> {
                       children: [
                         Icon(Icons.account_circle, color: const Color(0xFF58CC02), size: 20),
                         const SizedBox(width: 8),
-                        Text(
-                          "บัญชีที่เชื่อมต่อ",
-                          style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+                        ValueListenableBuilder<String>(
+                          valueListenable: UserData.appLanguage,
+                          builder: (context, lang, _) => Text(
+                            AppStrings.t('connected_account'),
+                            style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+                          ),
                         ),
                       ],
                     ),
@@ -313,13 +340,16 @@ class _SettingsPageState extends State<SettingsPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'ยังไม่ได้เชื่อมต่อบัญชี',
-                                  style: GoogleFonts.kanit(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.orange.shade700),
+                                ValueListenableBuilder<String>(
+                                  valueListenable: UserData.appLanguage,
+                                  builder: (context, lang, _) => Text(
+                                    AppStrings.t('account_not_connected'),
+                                    style: GoogleFonts.kanit(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.orange.shade700),
+                                  ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  'เชื่อมต่อ Google Account เพื่อบันทึกข้อมูลของคุณ',
+                                  AppStrings.t('connect_google_account'),
                                   style: GoogleFonts.kanit(fontSize: 12, color: Colors.orange.shade600),
                                 ),
                               ],
@@ -360,20 +390,26 @@ class _SettingsPageState extends State<SettingsPage> {
                                 },
                               ),
                         label: _isLoading
-                            ? Text(
-                                'กำลังเข้าสู่ระบบ...',
-                                style: GoogleFonts.kanit(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xFF2B3445),
+                            ? ValueListenableBuilder<String>(
+                                valueListenable: UserData.appLanguage,
+                                builder: (context, lang, _) => Text(
+                                  AppStrings.t('signing_in'),
+                                  style: GoogleFonts.kanit(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFF2B3445),
+                                  ),
                                 ),
                               )
-                            : Text(
-                                "เข้าสู่ระบบด้วย Google",
-                                style: GoogleFonts.kanit(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xFF2B3445),
+                            : ValueListenableBuilder<String>(
+                                valueListenable: UserData.appLanguage,
+                                builder: (context, lang, _) => Text(
+                                  AppStrings.t('sign_in_with_google'),
+                                  style: GoogleFonts.kanit(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFF2B3445),
+                                  ),
                                 ),
                               ),
                       ),
@@ -401,9 +437,12 @@ class _SettingsPageState extends State<SettingsPage> {
                     children: [
                       Icon(Icons.person, color: const Color(0xFF58CC02), size: 20),
                       const SizedBox(width: 8),
-                      Text(
-                        "ข้อมูลในแอป",
-                        style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+                      ValueListenableBuilder<String>(
+                        valueListenable: UserData.appLanguage,
+                        builder: (context, lang, _) => Text(
+                          AppStrings.t('app_data'),
+                          style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+                        ),
                       ),
                     ],
                   ),
@@ -466,17 +505,22 @@ class _SettingsPageState extends State<SettingsPage> {
                             ValueListenableBuilder<String>(
                               valueListenable: UserData.targetLanguage,
                               builder: (context, targetLang, _) {
-                                final langName = UserData.targetLanguageToThaiName(targetLang);
-                                final langFlag = targetLang == 'JP' ? '🇯🇵' : targetLang == 'EN' ? '🇬🇧' : targetLang == 'CN' ? '🇨🇳' : '🇰🇷';
-                                return Row(
-                                  children: [
-                                    Text(langFlag, style: const TextStyle(fontSize: 14)),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      langName,
-                                      style: GoogleFonts.kanit(color: const Color(0xFF58CC02), fontSize: 13, fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
+                                return ValueListenableBuilder<String>(
+                                  valueListenable: UserData.appLanguage,
+                                  builder: (context, appLang, __) {
+                                    final langName = UserData.targetLanguageToDisplayName(targetLang);
+                                    final langFlag = targetLang == 'JP' ? '🇯🇵' : targetLang == 'EN' ? '🇬🇧' : targetLang == 'CN' ? '🇨🇳' : '🇰🇷';
+                                    return Row(
+                                      children: [
+                                        Text(langFlag, style: const TextStyle(fontSize: 14)),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          langName,
+                                          style: GoogleFonts.kanit(color: const Color(0xFF58CC02), fontSize: 13, fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
                               },
                             ),
@@ -555,9 +599,12 @@ class _SettingsPageState extends State<SettingsPage> {
                                         AppStrings.t('current_language'),
                                         style: GoogleFonts.kanit(fontSize: 11, color: Colors.grey.shade600),
                                       ),
-                                      Text(
-                                        currentLang == 'th' ? 'ภาษาไทย' : 'English',
-                                        style: GoogleFonts.kanit(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+                                      ValueListenableBuilder<String>(
+                                        valueListenable: UserData.appLanguage,
+                                        builder: (context, appLang, _) => Text(
+                                          currentLang == 'th' ? AppStrings.t('thai_language') : AppStrings.t('english_language'),
+                                          style: GoogleFonts.kanit(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -571,13 +618,16 @@ class _SettingsPageState extends State<SettingsPage> {
                             style: GoogleFonts.kanit(fontSize: 14, color: Colors.grey.shade600, fontWeight: FontWeight.w500),
                           ),
                           const SizedBox(height: 10),
-                          Wrap(
-                            spacing: 10,
-                            runSpacing: 10,
-                            children: [
-                              _buildUILanguageOption(context, 'th', '🇹🇭 ภาษาไทย', currentLang),
-                              _buildUILanguageOption(context, 'en', '🇬🇧 English', currentLang),
-                            ],
+                          ValueListenableBuilder<String>(
+                            valueListenable: UserData.appLanguage,
+                            builder: (context, appLang, _) => Wrap(
+                              spacing: 10,
+                              runSpacing: 10,
+                              children: [
+                                _buildUILanguageOption(context, 'th', '🇹🇭 ${AppStrings.t('thai_language')}', currentLang),
+                                _buildUILanguageOption(context, 'en', '🇬🇧 ${AppStrings.t('english_language')}', currentLang),
+                              ],
+                            ),
                           ),
                         ],
                       );
@@ -654,9 +704,12 @@ class _SettingsPageState extends State<SettingsPage> {
                                         AppStrings.t('current_language'),
                                         style: GoogleFonts.kanit(fontSize: 11, color: Colors.grey.shade600),
                                       ),
-                                      Text(
-                                        UserData.targetLanguageToThaiName(currentLang),
-                                        style: GoogleFonts.kanit(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+                                      ValueListenableBuilder<String>(
+                                        valueListenable: UserData.appLanguage,
+                                        builder: (context, appLang, _) => Text(
+                                          UserData.targetLanguageToDisplayName(currentLang),
+                                          style: GoogleFonts.kanit(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -670,15 +723,18 @@ class _SettingsPageState extends State<SettingsPage> {
                             style: GoogleFonts.kanit(fontSize: 14, color: Colors.grey.shade600, fontWeight: FontWeight.w500),
                           ),
                           const SizedBox(height: 10),
-                          Wrap(
-                            spacing: 10,
-                            runSpacing: 10,
-                            children: [
-                              _buildLanguageOption(context, 'JP', '🇯🇵 ภาษาญี่ปุ่น', currentLang),
-                              _buildLanguageOption(context, 'EN', '🇬🇧 ภาษาอังกฤษ', currentLang),
-                              _buildLanguageOption(context, 'CN', '🇨🇳 ภาษาจีน', currentLang),
-                              _buildLanguageOption(context, 'KR', '🇰🇷 ภาษาเกาหลี', currentLang),
-                            ],
+                          ValueListenableBuilder<String>(
+                            valueListenable: UserData.appLanguage,
+                            builder: (context, appLang, _) => Wrap(
+                              spacing: 10,
+                              runSpacing: 10,
+                              children: [
+                                _buildLanguageOption(context, 'JP', UserData.targetLanguageToDisplayNameWithFlag('JP'), currentLang),
+                                _buildLanguageOption(context, 'EN', UserData.targetLanguageToDisplayNameWithFlag('EN'), currentLang),
+                                _buildLanguageOption(context, 'CN', UserData.targetLanguageToDisplayNameWithFlag('CN'), currentLang),
+                                _buildLanguageOption(context, 'KR', UserData.targetLanguageToDisplayNameWithFlag('KR'), currentLang),
+                              ],
+                            ),
                           ),
                         ],
                       );
@@ -841,25 +897,28 @@ class _SettingsPageState extends State<SettingsPage> {
   void _showResetDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('ยืนยันการรีเซ็ต', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
-        content: Text('ข้อมูลการเรียน XP และคำศัพท์ที่เพิ่มเองจะหายไปทั้งหมด\nคุณแน่ใจหรือไม่?', style: GoogleFonts.kanit()),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text('ยกเลิก', style: GoogleFonts.kanit(color: Colors.grey))),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
-            onPressed: () {
-              UserData.resetProgress();
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('รีเซ็ตข้อมูลเรียบร้อย', style: GoogleFonts.kanit()),
-                backgroundColor: Colors.grey.shade800,
-              ));
-            },
-            child: Text('ยืนยัน', style: GoogleFonts.kanit(color: Colors.white)),
-          ),
-        ],
+      builder: (context) => ValueListenableBuilder<String>(
+        valueListenable: UserData.appLanguage,
+        builder: (context, lang, _) => AlertDialog(
+          title: Text(AppStrings.t('confirm_reset'), style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
+          content: Text(AppStrings.t('reset_warning'), style: GoogleFonts.kanit()),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context), child: Text(AppStrings.t('cancel'), style: GoogleFonts.kanit(color: Colors.grey))),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+              onPressed: () {
+                UserData.resetProgress();
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(AppStrings.t('reset_success'), style: GoogleFonts.kanit()),
+                  backgroundColor: Colors.grey.shade800,
+                ));
+              },
+              child: Text(AppStrings.t('confirm'), style: GoogleFonts.kanit(color: Colors.white)),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -868,40 +927,43 @@ class _SettingsPageState extends State<SettingsPage> {
     final controller = TextEditingController(text: UserData.name.value);
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('แก้ไขชื่อ', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
-        content: TextField(
-          controller: controller,
-          style: GoogleFonts.kanit(),
-          decoration: InputDecoration(
-            labelText: 'ชื่อใหม่',
-            border: const OutlineInputBorder(),
-            hintText: 'กรุณากรอกชื่อของคุณ',
+      builder: (context) => ValueListenableBuilder<String>(
+        valueListenable: UserData.appLanguage,
+        builder: (context, lang, _) => AlertDialog(
+          title: Text(AppStrings.t('edit_your_name'), style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
+          content: TextField(
+            controller: controller,
+            style: GoogleFonts.kanit(),
+            decoration: InputDecoration(
+              labelText: AppStrings.t('new_name'),
+              border: const OutlineInputBorder(),
+              hintText: AppStrings.t('please_enter_name'),
+            ),
           ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(AppStrings.t('cancel'), style: GoogleFonts.kanit(color: Colors.grey)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF58CC02)),
+              onPressed: () {
+                if (controller.text.trim().isNotEmpty) {
+                  UserData.updateName(controller.text.trim());
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(AppStrings.t('name_changed_success'), style: GoogleFonts.kanit()),
+                      backgroundColor: const Color(0xFF58CC02),
+                    ),
+                  );
+                }
+              },
+              child: Text(AppStrings.t('save'), style: GoogleFonts.kanit(color: Colors.white)),
+            ),
+          ],
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('ยกเลิก', style: GoogleFonts.kanit(color: Colors.grey)),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF58CC02)),
-            onPressed: () {
-              if (controller.text.trim().isNotEmpty) {
-                UserData.updateName(controller.text.trim());
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('เปลี่ยนชื่อเรียบร้อยแล้ว', style: GoogleFonts.kanit()),
-                    backgroundColor: const Color(0xFF58CC02),
-                  ),
-                );
-              }
-            },
-            child: Text('บันทึก', style: GoogleFonts.kanit(color: Colors.white)),
-          ),
-        ],
       ),
     );
   }
@@ -910,7 +972,13 @@ class _SettingsPageState extends State<SettingsPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('เลือก Avatar', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
+        title: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('select_avatar'),
+            style: GoogleFonts.kanit(fontWeight: FontWeight.bold),
+          ),
+        ),
         content: SizedBox(
           width: double.maxFinite,
           child: GridView.builder(
@@ -929,7 +997,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('เปลี่ยน Avatar เรียบร้อยแล้ว', style: GoogleFonts.kanit()),
+                      content: ValueListenableBuilder<String>(
+                        valueListenable: UserData.appLanguage,
+                        builder: (context, lang, _) => Text(
+                          AppStrings.t('avatar_changed_success'),
+                          style: GoogleFonts.kanit(),
+                        ),
+                      ),
                       backgroundColor: const Color(0xFF58CC02),
                       duration: const Duration(seconds: 1),
                     ),
@@ -955,7 +1029,13 @@ class _SettingsPageState extends State<SettingsPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('ปิด', style: GoogleFonts.kanit()),
+            child: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                AppStrings.t('close'),
+                style: GoogleFonts.kanit(),
+              ),
+            ),
           ),
         ],
       ),

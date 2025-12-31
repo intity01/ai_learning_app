@@ -10,6 +10,7 @@ import '../services/ai_service.dart';
 import '../services/voice_service.dart';
 import '../config/api_config.dart';
 import '../user_data.dart';
+import '../app_strings.dart';
 
 class AITutorPage extends StatefulWidget {
   const AITutorPage({super.key});
@@ -28,11 +29,12 @@ class _AITutorPageState extends State<AITutorPage> {
   
   List<Map<String, dynamic>> _getInitialMessages() {
     final targetLang = UserData.targetLanguage.value;
-    final langName = UserData.targetLanguageToThaiName(targetLang);
+    final langName = UserData.targetLanguageToDisplayName(targetLang);
+    final welcomeText = AppStrings.t('ai_tutor_welcome').replaceAll('{langName}', langName);
     return [
       {
         'sender': 'ai',
-        'text': 'สวัสดีครับ! 👋 \nวันนี้อยากฝึกแต่งประโยค$langName หรือให้ผมช่วยแปลคำไหนบอกได้เลยนะครับ!',
+        'text': welcomeText,
         'time': _getCurrentTime(),
       },
     ];
@@ -52,7 +54,6 @@ class _AITutorPageState extends State<AITutorPage> {
     _messages = _getInitialMessages();
     // อัปเดตข้อความเริ่มต้นเมื่อ targetLanguage เปลี่ยน
     UserData.targetLanguage.addListener(_updateInitialMessage);
-    _checkApiConfiguration();
     _initializeSpeechToText();
   }
 
@@ -80,45 +81,6 @@ class _AITutorPageState extends State<AITutorPage> {
     }
   }
 
-  void _checkApiConfiguration() {
-    if (!_aiService.isConfigured || !_voiceService.isConfigured) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _showApiKeyDialog();
-      });
-    }
-  }
-
-  void _showApiKeyDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('ตั้งค่า API Keys', style: GoogleFonts.kanit()),
-        content: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'กรุณาตั้งค่า API Keys เพื่อใช้งาน AI Tutor และ Voice features',
-                style: GoogleFonts.kanit(),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                ApiConfig.setupInstructions,
-                style: GoogleFonts.kanit(fontSize: 12),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('เข้าใจแล้ว', style: GoogleFonts.kanit()),
-          ),
-        ],
-      ),
-    );
-  }
 
   static String _getCurrentTime() {
     final now = DateTime.now();
@@ -215,7 +177,13 @@ class _AITutorPageState extends State<AITutorPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Voice service ไม่ได้ตั้งค่า กรุณาตรวจสอบ API Key', style: GoogleFonts.kanit()),
+            content: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                AppStrings.t('voice_service_not_configured'),
+                style: GoogleFonts.kanit(),
+              ),
+            ),
             backgroundColor: Colors.orange,
           ),
         );
@@ -241,7 +209,13 @@ class _AITutorPageState extends State<AITutorPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('เกิดข้อผิดพลาดในการเล่นเสียง: $e', style: GoogleFonts.kanit()),
+            content: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                '${AppStrings.t('error_playing_audio')}: $e',
+                style: GoogleFonts.kanit(),
+              ),
+            ),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 3),
           ),
@@ -262,7 +236,13 @@ class _AITutorPageState extends State<AITutorPage> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('ต้องการ permission ในการใช้ microphone', style: GoogleFonts.kanit()),
+              content: ValueListenableBuilder<String>(
+                valueListenable: UserData.appLanguage,
+                builder: (context, lang, _) => Text(
+                  AppStrings.t('need_microphone_permission'),
+                  style: GoogleFonts.kanit(),
+                ),
+              ),
               backgroundColor: Colors.red,
             ),
           );
@@ -304,7 +284,13 @@ class _AITutorPageState extends State<AITutorPage> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Speech-to-Text ไม่พร้อมใช้งาน', style: GoogleFonts.kanit()),
+              content: ValueListenableBuilder<String>(
+                valueListenable: UserData.appLanguage,
+                builder: (context, lang, _) => Text(
+                  AppStrings.t('speech_to_text_unavailable'),
+                  style: GoogleFonts.kanit(),
+                ),
+              ),
               backgroundColor: Colors.red,
             ),
           );
@@ -315,7 +301,13 @@ class _AITutorPageState extends State<AITutorPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('เกิดข้อผิดพลาดในการบันทึกเสียง: $e', style: GoogleFonts.kanit()),
+            content: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                '${AppStrings.t('error_recording')}: $e',
+                style: GoogleFonts.kanit(),
+              ),
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -342,7 +334,13 @@ class _AITutorPageState extends State<AITutorPage> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('เกิดข้อผิดพลาดในการหยุดฟัง: $e', style: GoogleFonts.kanit()),
+            content: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Text(
+                '${AppStrings.t('error_stopping_listen')}: $e',
+                style: GoogleFonts.kanit(),
+              ),
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -448,12 +446,15 @@ class _AITutorPageState extends State<AITutorPage> {
                         ),
                       ),
                       const SizedBox(width: 6),
-                      Text(
-                        _isLoading ? 'กำลังพิมพ์...' : 'Online',
-                        style: GoogleFonts.kanit(
-                          fontSize: 12,
-                          color: _isLoading ? Colors.orange : const Color(0xFF58CC02),
-                          fontWeight: FontWeight.w500,
+                      ValueListenableBuilder<String>(
+                        valueListenable: UserData.appLanguage,
+                        builder: (context, lang, _) => Text(
+                          _isLoading ? AppStrings.t('typing') : AppStrings.t('online'),
+                          style: GoogleFonts.kanit(
+                            fontSize: 12,
+                            color: _isLoading ? Colors.orange : const Color(0xFF58CC02),
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ],
@@ -512,21 +513,26 @@ class _AITutorPageState extends State<AITutorPage> {
             ValueListenableBuilder<String>(
               valueListenable: UserData.targetLanguage,
               builder: (context, targetLang, _) {
-                final langFlag = targetLang == 'JP' ? '🇯🇵' : targetLang == 'EN' ? '🇬🇧' : targetLang == 'CN' ? '🇨🇳' : '🇰🇷';
-                final langName = UserData.targetLanguageToThaiName(targetLang);
-                return Container(
-                  height: 50,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      _buildSuggestionChip("✨ ช่วยแก้ประโยค", 0),
-                      const SizedBox(width: 8),
-                      _buildSuggestionChip("$langFlag แปลเป็น$langName", 1),
-                      const SizedBox(width: 8),
-                      _buildSuggestionChip("🗣️ ฝึกออกเสียง", 2),
-                    ],
-                  ),
+                return ValueListenableBuilder<String>(
+                  valueListenable: UserData.appLanguage,
+                  builder: (context, appLang, __) {
+                    final langFlag = targetLang == 'JP' ? '🇯🇵' : targetLang == 'EN' ? '🇬🇧' : targetLang == 'CN' ? '🇨🇳' : '🇰🇷';
+                    final langName = UserData.targetLanguageToDisplayName(targetLang);
+                    return Container(
+                      height: 50,
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          _buildSuggestionChip(AppStrings.t('ai_tutor_fix_sentence'), 0),
+                          const SizedBox(width: 8),
+                          _buildSuggestionChip("$langFlag ${AppStrings.t('ai_tutor_translate').replaceAll('{langName}', langName)}", 1),
+                          const SizedBox(width: 8),
+                          _buildSuggestionChip(AppStrings.t('ai_tutor_practice_pronunciation'), 2),
+                        ],
+                      ),
+                    );
+                  },
                 );
               },
             ),
@@ -541,11 +547,14 @@ class _AITutorPageState extends State<AITutorPage> {
                 children: [
                   Icon(Icons.mic, color: Colors.red, size: 20),
                   const SizedBox(width: 8),
-                  Text(
-                    'กำลังฟัง... พูดได้เลย',
-                    style: GoogleFonts.kanit(
-                      color: Colors.red,
-                      fontWeight: FontWeight.w500,
+                  ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => Text(
+                      AppStrings.t('listening'),
+                      style: GoogleFonts.kanit(
+                        color: Colors.red,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],
@@ -790,42 +799,45 @@ class _AITutorPageState extends State<AITutorPage> {
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade50,
-                borderRadius: BorderRadius.circular(28),
-                border: Border.all(
-                  color: _isListening 
-                      ? Colors.red.withValues(alpha: 0.3)
-                      : Colors.grey.shade200,
-                  width: 1.5,
-                ),
-              ),
-              child: TextField(
-                controller: _controller,
-                style: GoogleFonts.kanit(fontSize: 15),
-                enabled: !_isLoading && !_isListening,
-                maxLines: null,
-                textInputAction: TextInputAction.send,
-                decoration: InputDecoration(
-                  hintText: _isListening
-                      ? "กำลังฟัง..."
-                      : _isLoading
-                          ? "AI กำลังพิมพ์..."
-                          : "พิมพ์ข้อความ...",
-                  hintStyle: GoogleFonts.kanit(
-                    color: Colors.grey.shade400,
-                    fontSize: 15,
+            child: ValueListenableBuilder<String>(
+              valueListenable: UserData.appLanguage,
+              builder: (context, lang, _) => Container(
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade50,
+                  borderRadius: BorderRadius.circular(28),
+                  border: Border.all(
+                    color: _isListening 
+                        ? Colors.red.withValues(alpha: 0.3)
+                        : Colors.grey.shade200,
+                    width: 1.5,
                   ),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.zero,
                 ),
-                onSubmitted: (text) {
-                  if (text.trim().isNotEmpty && !_isLoading) {
-                    _sendMessage(text.trim());
-                  }
-                },
+                child: TextField(
+                  controller: _controller,
+                  style: GoogleFonts.kanit(fontSize: 15),
+                  enabled: !_isLoading && !_isListening,
+                  maxLines: null,
+                  textInputAction: TextInputAction.send,
+                  decoration: InputDecoration(
+                    hintText: _isListening
+                        ? AppStrings.t('listening').split('...')[0] + '...'
+                        : _isLoading
+                            ? AppStrings.t('ai_typing')
+                            : AppStrings.t('type_message'),
+                    hintStyle: GoogleFonts.kanit(
+                      color: Colors.grey.shade400,
+                      fontSize: 15,
+                    ),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                  onSubmitted: (text) {
+                    if (text.trim().isNotEmpty && !_isLoading) {
+                      _sendMessage(text.trim());
+                    }
+                  },
+                ),
               ),
             ),
           ),

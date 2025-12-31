@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../user_data.dart'; // ดึงระบบบันทึก (UserData)
+import '../app_strings.dart';
 import '../lesson_data.dart'; // ✅ ใช้ Question จาก LessonData
 import '../services/lesson_data_service.dart'; // ✅ Service สำหรับโหลดข้อมูลจาก JSON
 import '../services/lesson_manager.dart'; // ✅ Service สำหรับจัดการบทเรียนตามระดับและภาษา
@@ -199,19 +200,25 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "คำตอบไม่ถูกต้อง",
-                        style: GoogleFonts.kanit(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
+                      ValueListenableBuilder<String>(
+                        valueListenable: UserData.appLanguage,
+                        builder: (context, lang, _) => Text(
+                          AppStrings.t('answer_incorrect'),
+                          style: GoogleFonts.kanit(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
                         ),
                       ),
-                      Text(
-                        "มาดูคำอธิบายกัน",
-                        style: GoogleFonts.kanit(
-                          fontSize: 14,
-                          color: Colors.grey.shade600,
+                      ValueListenableBuilder<String>(
+                        valueListenable: UserData.appLanguage,
+                        builder: (context, lang, _) => Text(
+                          AppStrings.t('see_explanation'),
+                          style: GoogleFonts.kanit(
+                            fontSize: 14,
+                            color: Colors.grey.shade600,
+                          ),
                         ),
                       ),
                     ],
@@ -237,11 +244,14 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "คำตอบที่ถูกต้อง:",
-                          style: GoogleFonts.kanit(
-                            fontSize: 12,
-                            color: Colors.grey.shade600,
+                        ValueListenableBuilder<String>(
+                          valueListenable: UserData.appLanguage,
+                          builder: (context, lang, _) => Text(
+                            AppStrings.t('correct_answer'),
+                            style: GoogleFonts.kanit(
+                              fontSize: 12,
+                              color: Colors.grey.shade600,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -275,12 +285,15 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                     children: [
                       const Icon(Icons.lightbulb_outline, color: Colors.blue, size: 20),
                       const SizedBox(width: 8),
-                      Text(
-                        "คำอธิบาย:",
-                        style: GoogleFonts.kanit(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue.shade700,
+                      ValueListenableBuilder<String>(
+                        valueListenable: UserData.appLanguage,
+                        builder: (context, lang, _) => Text(
+                          AppStrings.t('explanation'),
+                          style: GoogleFonts.kanit(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue.shade700,
+                          ),
                         ),
                       ),
                     ],
@@ -314,12 +327,15 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: Text(
-                  "เข้าใจแล้ว ไปต่อเลย",
-                  style: GoogleFonts.kanit(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                child: ValueListenableBuilder<String>(
+                  valueListenable: UserData.appLanguage,
+                  builder: (context, lang, _) => Text(
+                    AppStrings.t('understood_continue'),
+                    style: GoogleFonts.kanit(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -483,7 +499,13 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
               ),
               onPressed: () {
                 Navigator.pop(context); // ปิด Dialog
-                Navigator.pop(context); // กลับไปหน้าเลือกบทเรียน
+                // ตรวจสอบว่ามี route ให้ pop หรือไม่ก่อนจะ pop
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context); // กลับไปหน้าเลือกบทเรียน
+                } else {
+                  // ถ้าไม่มี route ให้ pop ให้ navigate ไปหน้าแรกแทน
+                  Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+                }
               },
               child: Text(
                 "รับทราบ", 
@@ -998,12 +1020,15 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                       color: _isCorrect ? const Color(0xFF58CC02) : Colors.red,
                     ),
                     const SizedBox(width: 8),
-                    Text(
-                      _isCorrect ? 'คำตอบถูกต้อง!' : 'คำตอบที่ถูกต้อง:',
-                      style: GoogleFonts.kanit(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: _isCorrect ? const Color(0xFF58CC02) : Colors.red,
+                    ValueListenableBuilder<String>(
+                      valueListenable: UserData.appLanguage,
+                      builder: (context, lang, _) => Text(
+                        _isCorrect ? AppStrings.t('answer_correct') : AppStrings.t('correct_answer'),
+                        style: GoogleFonts.kanit(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: _isCorrect ? const Color(0xFF58CC02) : Colors.red,
+                        ),
                       ),
                     ),
                   ],
@@ -1052,16 +1077,19 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             elevation: 0,
           ),
-          child: Text(
-            _isChecked 
-                ? (_isCorrect 
-                    ? "ไปต่อเลย" 
-                    : (_hasShownExplanation ? "เข้าใจแล้ว ไปต่อเลย" : "ดูคำอธิบาย")) 
-                : "ตรวจคำตอบ",
-            style: GoogleFonts.kanit(
-              fontSize: 18, 
-              fontWeight: FontWeight.bold, 
-              color: Colors.white
+          child: ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => Text(
+              _isChecked 
+                  ? (_isCorrect 
+                      ? AppStrings.t('continue_next')
+                      : (_hasShownExplanation ? AppStrings.t('understood_continue') : AppStrings.t('see_explanation'))) 
+                  : AppStrings.t('check_answer'),
+              style: GoogleFonts.kanit(
+                fontSize: 18, 
+                fontWeight: FontWeight.bold, 
+                color: Colors.white,
+              ),
             ),
           ),
         );
@@ -1087,12 +1115,15 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             elevation: 0,
           ),
-          child: Text(
-            _isChecked ? "ไปต่อเลย" : "ตรวจคำตอบ",
-            style: GoogleFonts.kanit(
-              fontSize: 18, 
-              fontWeight: FontWeight.bold, 
-              color: Colors.white
+          child: ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => Text(
+              _isChecked ? AppStrings.t('continue_next') : AppStrings.t('check_answer'),
+              style: GoogleFonts.kanit(
+                fontSize: 18, 
+                fontWeight: FontWeight.bold, 
+                color: Colors.white,
+              ),
             ),
           ),
         );

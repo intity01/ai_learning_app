@@ -39,9 +39,12 @@ class VocabularyPage extends StatelessWidget {
               },
             ),
           ),
-          title: Text(
-            'คลังคำศัพท์',
-            style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+          title: ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => Text(
+              AppStrings.t('menu_vocab'),
+              style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+            ),
           ),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(80),
@@ -74,9 +77,15 @@ class VocabularyPage extends StatelessWidget {
                 labelStyle: GoogleFonts.kanit(fontWeight: FontWeight.bold, fontSize: 16),
                 indicatorSize: TabBarIndicatorSize.tab, // ขยายสีให้เต็มช่อง
                 dividerColor: Colors.transparent,
-                tabs: const [
-                  Tab(child: Text("📚 บทเรียน")),
-                  Tab(child: Text("✏️ ของฉัน")),
+                tabs: [
+                  ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => Tab(child: Text("📚 ${AppStrings.t('lessons')}")),
+                  ),
+                  ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => Tab(child: Text("✏️ ${AppStrings.t('my_vocabulary')}")),
+                  ),
                 ],
               ),
             ),
@@ -118,12 +127,12 @@ class VocabularyPage extends StatelessWidget {
 
   // 🔥 Widget เลือกบทเรียน (มีระบบล็อค + สีเต็ม)
   Widget _buildLessonSelector(BuildContext context) {
-    final Map<int, String> lessonNames = {
-      1: "การทักทาย",
-      2: "แนะนำตัวเอง",
-      3: "ตัวเลข & เวลา",
-      4: "อาหาร & เครื่องดื่ม",
-      5: "การเดินทาง",
+    final Map<int, String Function()> lessonNames = {
+      1: () => AppStrings.t('unit_greetings'),
+      2: () => AppStrings.t('unit_introduce'),
+      3: () => AppStrings.t('unit_numbers_time'),
+      4: () => AppStrings.t('unit_food_drinks'),
+      5: () => AppStrings.t('unit_travel'),
     };
 
     // ต้องฟังค่า lessonProgress เพื่อเช็คว่าบทไหนล็อค
@@ -160,7 +169,13 @@ class VocabularyPage extends StatelessWidget {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text("🔒 ต้องเรียนบทก่อนหน้าให้จบก่อนนะ!", style: GoogleFonts.kanit()),
+                    content: ValueListenableBuilder<String>(
+                      valueListenable: UserData.appLanguage,
+                      builder: (context, lang, _) => Text(
+                        "🔒 ${AppStrings.t('lesson_locked_message')}",
+                        style: GoogleFonts.kanit(),
+                      ),
+                    ),
                     backgroundColor: Colors.grey.shade800,
                     behavior: SnackBarBehavior.floating,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -173,7 +188,7 @@ class VocabularyPage extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => LessonVocabListPage(
                       lessonId: lessonId, 
-                      title: lessonNames[lessonId] ?? ""
+                      title: lessonNames[lessonId]?.call() ?? ""
                     )
                   ),
                 );
@@ -225,12 +240,15 @@ class VocabularyPage extends StatelessWidget {
                               fontWeight: FontWeight.bold
                             ),
                           ),
-                          Text(
-                            lessonNames[lessonId] ?? "Unit $lessonId",
-                            style: GoogleFonts.kanit(
-                              fontSize: 18, 
-                              fontWeight: FontWeight.bold, 
-                              color: isLocked ? Colors.grey.shade500 : const Color(0xFF2B3445)
+                          ValueListenableBuilder<String>(
+                            valueListenable: UserData.appLanguage,
+                            builder: (context, lang, _) => Text(
+                              lessonNames[lessonId]?.call() ?? "Unit $lessonId",
+                              style: GoogleFonts.kanit(
+                                fontSize: 18, 
+                                fontWeight: FontWeight.bold, 
+                                color: isLocked ? Colors.grey.shade500 : const Color(0xFF2B3445)
+                              ),
                             ),
                           ),
                         ],

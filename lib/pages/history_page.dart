@@ -64,11 +64,14 @@ class HistoryPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    'เริ่มเรียนเพื่อดูประวัติการเรียนของคุณ',
-                    style: GoogleFonts.kanit(
-                      fontSize: 14,
-                      color: Colors.grey.shade400,
+                  ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => Text(
+                      AppStrings.t('start_learning_to_see_history'),
+                      style: GoogleFonts.kanit(
+                        fontSize: 14,
+                        color: Colors.grey.shade400,
+                      ),
                     ),
                   ),
                 ],
@@ -123,11 +126,14 @@ class HistoryPage extends StatelessWidget {
                       children: [
                         Icon(Icons.access_time, size: 14, color: Colors.grey.shade400),
                         const SizedBox(width: 4),
-                        Text(
-                          'เสร็จสิ้นเมื่อ: $time',
-                          style: GoogleFonts.kanit(
-                            fontSize: 12,
-                            color: Colors.grey.shade600,
+                        ValueListenableBuilder<String>(
+                          valueListenable: UserData.appLanguage,
+                          builder: (context, lang, _) => Text(
+                            '${AppStrings.t('completed_at')}: $time',
+                            style: GoogleFonts.kanit(
+                              fontSize: 12,
+                              color: Colors.grey.shade600,
+                            ),
                           ),
                         ),
                       ],

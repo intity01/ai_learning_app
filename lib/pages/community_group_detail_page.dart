@@ -165,7 +165,7 @@ class _CommunityGroupDetailPageState extends State<CommunityGroupDetailPage> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     final isMember = user != null && _group.isMember(user.uid);
-    final langName = UserData.targetLanguageToThaiName(_group.language);
+    final langName = UserData.targetLanguageToDisplayName(_group.language);
     final langFlag = _group.language == 'JP' ? '🇯🇵' : _group.language == 'EN' ? '🇬🇧' : _group.language == 'CN' ? '🇨🇳' : '🇰🇷';
 
     return Scaffold(

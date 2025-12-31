@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../user_data.dart';
+import '../app_strings.dart';
 import '../services/friend_service.dart';
 import '../models/friend.dart';
 
@@ -32,7 +33,13 @@ class _AddFriendPageState extends State<AddFriendPage> {
       appBar: AppBar(
         backgroundColor: const Color(0xFFF8F9FD),
         elevation: 0,
-        title: Text('เพิ่มเพื่อน', style: GoogleFonts.kanit(fontWeight: FontWeight.bold, fontSize: 24, color: const Color(0xFF2B3445))),
+        title: ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('add_friend'),
+            style: GoogleFonts.kanit(fontWeight: FontWeight.bold, fontSize: 24, color: const Color(0xFF2B3445)),
+          ),
+        ),
         centerTitle: true,
         leading: Container(
           margin: const EdgeInsets.all(8),
@@ -58,7 +65,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: 'ค้นหาด้วยชื่อหรืออีเมล',
+                hintText: AppStrings.t('search_by_name_or_email'),
                 hintStyle: GoogleFonts.kanit(color: Colors.grey.shade400),
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _searchController.text.isNotEmpty
@@ -107,7 +114,13 @@ class _AddFriendPageState extends State<AddFriendPage> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        Text('แนะนำเพื่อน', style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445))),
+        ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('recommend_friend'),
+            style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+          ),
+        ),
         const SizedBox(height: 16),
         ...suggestions.map((user) => _buildUserCard(user)),
       ],
@@ -123,7 +136,13 @@ class _AddFriendPageState extends State<AddFriendPage> {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        Text('ผลการค้นหา', style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445))),
+        ValueListenableBuilder<String>(
+          valueListenable: UserData.appLanguage,
+          builder: (context, lang, _) => Text(
+            AppStrings.t('search_results'),
+            style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+          ),
+        ),
         const SizedBox(height: 16),
         ...results.map((user) => _buildUserCard(user)),
       ],
@@ -154,7 +173,13 @@ class _AddFriendPageState extends State<AddFriendPage> {
         trailing: ElevatedButton(
           style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF58CC02)),
           onPressed: () => _sendFriendRequest(user),
-          child: Text('เพิ่ม', style: GoogleFonts.kanit(color: Colors.white, fontSize: 12)),
+          child: ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => Text(
+              AppStrings.t('add'),
+              style: GoogleFonts.kanit(color: Colors.white, fontSize: 12),
+            ),
+          ),
         ),
       ),
     );
@@ -173,7 +198,13 @@ class _AddFriendPageState extends State<AddFriendPage> {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(success ? 'ส่งคำขอเพื่อนแล้ว' : 'มีคำขออยู่แล้ว', style: GoogleFonts.kanit()),
+          content: ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => Text(
+              success ? AppStrings.t('friend_request_sent') : AppStrings.t('friend_request_exists'),
+              style: GoogleFonts.kanit(),
+            ),
+          ),
           backgroundColor: success ? Colors.green : Colors.orange,
         ),
       );

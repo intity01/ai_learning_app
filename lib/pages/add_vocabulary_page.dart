@@ -22,7 +22,10 @@ class _AddVocabularyPageState extends State<AddVocabularyPage> {
     if (_wordController.text.trim().isEmpty || _meaningController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('กรุณากรอกคำศัพท์และคำแปล', style: GoogleFonts.kanit()),
+          content: ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => Text(AppStrings.t('please_fill_word_and_meaning'), style: GoogleFonts.kanit()),
+          ),
           backgroundColor: Colors.redAccent,
           behavior: SnackBarBehavior.floating,
         ),
@@ -43,7 +46,10 @@ class _AddVocabularyPageState extends State<AddVocabularyPage> {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('บันทึกสำเร็จ!', style: GoogleFonts.kanit()),
+          content: ValueListenableBuilder<String>(
+            valueListenable: UserData.appLanguage,
+            builder: (context, lang, _) => Text(AppStrings.t('save_success'), style: GoogleFonts.kanit()),
+          ),
           backgroundColor: const Color(0xFF58CC02),
           behavior: SnackBarBehavior.floating,
         ),
@@ -106,20 +112,46 @@ class _AddVocabularyPageState extends State<AddVocabularyPage> {
                   ValueListenableBuilder<String>(
                     valueListenable: UserData.targetLanguage,
                     builder: (context, targetLang, _) {
-                      final langName = UserData.targetLanguageToThaiName(targetLang);
-                      return _buildLabel("คำศัพท์ ($langName)");
+                      return ValueListenableBuilder<String>(
+                        valueListenable: UserData.appLanguage,
+                        builder: (context, appLang, __) {
+                          final langName = UserData.targetLanguageToDisplayName(targetLang);
+                          return _buildLabel("${AppStrings.t('vocabulary_word')} ($langName)");
+                        },
+                      );
                     },
                   ),
-                  _buildInput(_wordController, "เช่น 猫, Apple", Icons.abc),
+                  ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => _buildInput(_wordController, "${AppStrings.t('example')} 猫, Apple", Icons.abc),
+                  ),
                   const SizedBox(height: 20),
-                  _buildLabel("คำอ่าน (Romaji)"),
-                  _buildInput(_romajiController, "เช่น Neko, เนโกะ", Icons.record_voice_over_rounded),
+                  ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => _buildLabel("${AppStrings.t('reading')} (Romaji)"),
+                  ),
+                  ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => _buildInput(_romajiController, "${AppStrings.t('example')} Neko, เนโกะ", Icons.record_voice_over_rounded),
+                  ),
                   const SizedBox(height: 20),
-                  _buildLabel("คำแปล"),
-                  _buildInput(_meaningController, "เช่น แมว", Icons.translate_rounded),
+                  ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => _buildLabel(AppStrings.t('meaning')),
+                  ),
+                  ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => _buildInput(_meaningController, lang == 'th' ? "${AppStrings.t('example')} แมว" : "${AppStrings.t('example')} Cat", Icons.translate_rounded),
+                  ),
                   const SizedBox(height: 20),
-                  _buildLabel("หมวดหมู่ (Tag)"),
-                  _buildInput(_tagController, "เช่น สัตว์, ผลไม้", Icons.label_outline_rounded),
+                  ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => _buildLabel("${AppStrings.t('category')} (Tag)"),
+                  ),
+                  ValueListenableBuilder<String>(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, lang, _) => _buildInput(_tagController, lang == 'th' ? "${AppStrings.t('example')} สัตว์, ผลไม้" : "${AppStrings.t('example')} Animal, Fruit", Icons.label_outline_rounded),
+                  ),
                 ],
               ),
             ).animate().slideY(begin: 0.1, duration: 400.ms, curve: Curves.easeOut),
@@ -137,9 +169,12 @@ class _AddVocabularyPageState extends State<AddVocabularyPage> {
                   elevation: 0,
                   shadowColor: const Color(0xFF58CC02).withValues(alpha: 0.5),
                 ),
-                child: Text(
-                  "บันทึก",
-                  style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                child: ValueListenableBuilder<String>(
+                  valueListenable: UserData.appLanguage,
+                  builder: (context, lang, _) => Text(
+                    AppStrings.t('save'),
+                    style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
                 ),
               ),
             ).animate().fade(delay: 200.ms),
