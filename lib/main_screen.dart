@@ -171,7 +171,7 @@ class _MainScreenState extends State<MainScreen> {
                       // ปรับ offset ให้เหมาะสม - อยู่เหนือ navbar และอยู่ด้านขวา
                       offset: Offset(
                         -MediaQuery.of(context).size.width *
-                            0.25, // อยู่ด้านขวา
+                            0.15, // อยู่ด้านขวา (ลดลงเพื่อให้กว้างขึ้น)
                         -280, // อยู่เหนือ navbar พอดี
                       ),
                       icon: Container(
@@ -184,15 +184,15 @@ class _MainScreenState extends State<MainScreen> {
                             color: Colors.grey, size: 24),
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      elevation: 8,
-                      color: const Color(0xFF1E1E2E), // สีเข้ม
+                      elevation: 12,
+                      color: Colors.white, // สีขาวเข้ากับธีมแอป
                       padding:
                           EdgeInsets.zero, // ลบ padding เพื่อให้ขนาดตามเนื้อหา
-                      constraints: const BoxConstraints(
-                        minWidth: 200,
-                        maxWidth: 280, // จำกัดความกว้างสูงสุด
+                      constraints: BoxConstraints(
+                        minWidth: 280,
+                        maxWidth: MediaQuery.of(context).size.width * 0.85, // กว้างขึ้นตามขนาดหน้าจอ
                       ),
                       onSelected: (value) {
                         switch (value) {
@@ -221,9 +221,8 @@ class _MainScreenState extends State<MainScreen> {
                         PopupMenuItem<String>(
                           value: 'profile',
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
+                              horizontal: 20, vertical: 16),
                           child: Row(
-                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
                                 padding: const EdgeInsets.all(10),
@@ -243,7 +242,7 @@ class _MainScreenState extends State<MainScreen> {
                                   style: GoogleFonts.kanit(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 15,
-                                    color: Colors.white,
+                                    color: const Color(0xFF2B3445),
                                   ),
                                 ),
                               ),
@@ -253,9 +252,8 @@ class _MainScreenState extends State<MainScreen> {
                         PopupMenuItem<String>(
                           value: 'friends',
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
+                              horizontal: 20, vertical: 16),
                           child: Row(
-                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
                                 padding: const EdgeInsets.all(10),
@@ -275,7 +273,7 @@ class _MainScreenState extends State<MainScreen> {
                                   style: GoogleFonts.kanit(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 15,
-                                    color: Colors.white,
+                                    color: const Color(0xFF2B3445),
                                   ),
                                 ),
                               ),
@@ -285,9 +283,8 @@ class _MainScreenState extends State<MainScreen> {
                         PopupMenuItem<String>(
                           value: 'community',
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
+                              horizontal: 20, vertical: 16),
                           child: Row(
-                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
                                 padding: const EdgeInsets.all(10),
@@ -307,7 +304,7 @@ class _MainScreenState extends State<MainScreen> {
                                   style: GoogleFonts.kanit(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 15,
-                                    color: Colors.white,
+                                    color: const Color(0xFF2B3445),
                                   ),
                                 ),
                               ),

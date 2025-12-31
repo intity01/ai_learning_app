@@ -759,11 +759,14 @@ class _SettingsPageState extends State<SettingsPage> {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(
-                langCode == 'th' 
-                  ? 'เปลี่ยนภาษาแอปเป็นภาษาไทยแล้ว' 
-                  : 'Changed app language to English',
-                style: GoogleFonts.kanit(),
+              content: ValueListenableBuilder(
+                valueListenable: UserData.appLanguage,
+                builder: (context, currentLang, __) => Text(
+                  langCode == 'th' 
+                    ? AppStrings.t('app_language_changed_th')
+                    : AppStrings.t('app_language_changed_en'),
+                  style: GoogleFonts.kanit(),
+                ),
               ),
               backgroundColor: const Color(0xFF58CC02),
               duration: const Duration(seconds: 2),
@@ -803,7 +806,10 @@ class _SettingsPageState extends State<SettingsPage> {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('เปลี่ยนภาษาที่เรียนเป็น $label แล้ว', style: GoogleFonts.kanit()),
+              content: ValueListenableBuilder(
+                valueListenable: UserData.appLanguage,
+                builder: (context, _, __) => Text('${AppStrings.t('learning_language_changed')} $label', style: GoogleFonts.kanit()),
+              ),
               backgroundColor: Colors.grey.shade800,
               duration: const Duration(seconds: 2),
             ),

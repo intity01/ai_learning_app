@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../user_data.dart';
+import '../app_strings.dart';
 
 class LeaderboardPage extends StatelessWidget {
   const LeaderboardPage({super.key});
@@ -28,9 +29,12 @@ class LeaderboardPage extends StatelessWidget {
             onPressed: () => Navigator.pop(context),
           ),
         ),
-        title: Text(
-          'อันดับผู้เล่น',
-          style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+        title: ValueListenableBuilder(
+          valueListenable: UserData.appLanguage,
+          builder: (context, _, __) => Text(
+            AppStrings.t('leaderboard_title'),
+            style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445)),
+          ),
         ),
       ),
       body: Column(
@@ -129,12 +133,15 @@ class LeaderboardPage extends StatelessWidget {
                         children: [
                           const Icon(Icons.emoji_events, color: Colors.white, size: 20),
                           const SizedBox(width: 8),
-                          Text(
-                            "อันดับที่ #$rank",
-                            style: GoogleFonts.kanit(
-                              fontSize: 16, 
-                              fontWeight: FontWeight.bold, 
-                              color: Colors.white
+                          ValueListenableBuilder(
+                            valueListenable: UserData.appLanguage,
+                            builder: (context, _, __) => Text(
+                              "${AppStrings.t('rank')} #$rank",
+                              style: GoogleFonts.kanit(
+                                fontSize: 16, 
+                                fontWeight: FontWeight.bold, 
+                                color: Colors.white
+                              ),
                             ),
                           ),
                         ],
@@ -178,11 +185,14 @@ class LeaderboardPage extends StatelessWidget {
                       children: [
                         Icon(Icons.emoji_events_outlined, size: 64, color: Colors.grey.shade300),
                         const SizedBox(height: 16),
-                        Text(
-                          'ยังไม่มีข้อมูล',
-                          style: GoogleFonts.kanit(
-                            fontSize: 18,
-                            color: Colors.grey.shade600,
+                        ValueListenableBuilder(
+                          valueListenable: UserData.appLanguage,
+                          builder: (context, _, __) => Text(
+                            AppStrings.t('no_data'),
+                            style: GoogleFonts.kanit(
+                              fontSize: 18,
+                              color: Colors.grey.shade600,
+                            ),
                           ),
                         ),
                       ],
@@ -293,13 +303,16 @@ class LeaderboardPage extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis
                                   ),
                                   if (player.isMe)
-                                    Text(
-                                      'คุณ', 
-                                      style: GoogleFonts.kanit(
-                                        fontSize: 11, 
-                                        color: const Color(0xFF58CC02),
-                                        fontWeight: FontWeight.w500,
-                                      )
+                                    ValueListenableBuilder(
+                                      valueListenable: UserData.appLanguage,
+                                      builder: (context, _, __) => Text(
+                                        AppStrings.t('you'), 
+                                        style: GoogleFonts.kanit(
+                                          fontSize: 11, 
+                                          color: const Color(0xFF58CC02),
+                                          fontWeight: FontWeight.w500,
+                                        )
+                                      ),
                                     ),
                                 ],
                               ),

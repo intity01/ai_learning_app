@@ -33,8 +33,12 @@ void main() async {
       );
     }
   } catch (e) {
-    // ถ้า Firebase ถูก initialize แล้วจะไม่ error
-    debugPrint('Firebase initialization: $e');
+    // จัดการ duplicate-app error (เกิดจาก hot reload)
+    if (e.toString().contains('duplicate-app')) {
+      debugPrint('Firebase already initialized, skipping...');
+    } else {
+      debugPrint('Firebase initialization error: $e');
+    }
   }
   
   await UserData.init(); 

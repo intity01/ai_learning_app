@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../user_data.dart';
+import '../app_strings.dart';
 import 'add_vocabulary_page.dart';
 import 'lesson_vocab_list_page.dart';
 
@@ -104,7 +105,10 @@ class VocabularyPage extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const AddVocabularyPage())
             );
           },
-          label: Text('เพิ่มคำศัพท์', style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
+          label: ValueListenableBuilder(
+            valueListenable: UserData.appLanguage,
+            builder: (context, _, __) => Text(AppStrings.t('add_vocabulary'), style: GoogleFonts.kanit(fontWeight: FontWeight.bold)),
+          ),
           icon: const Icon(Icons.add),
           backgroundColor: const Color(0xFF58CC02),
         ).animate().scale(delay: 500.ms, duration: 400.ms, curve: Curves.elasticOut),
@@ -269,9 +273,12 @@ class VocabularyPage extends StatelessWidget {
               child: Icon(Icons.edit_note_rounded, size: 60, color: Colors.grey.shade400),
             ),
             const SizedBox(height: 15),
-            Text(
-              "ยังไม่ได้เพิ่มคำศัพท์",
-              style: GoogleFonts.kanit(color: Colors.grey, fontSize: 16),
+            ValueListenableBuilder(
+              valueListenable: UserData.appLanguage,
+              builder: (context, _, __) => Text(
+                AppStrings.t('no_vocabulary'),
+                style: GoogleFonts.kanit(color: Colors.grey, fontSize: 16),
+              ),
             ),
           ],
         ),

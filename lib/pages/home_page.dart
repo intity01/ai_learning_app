@@ -45,8 +45,11 @@ class HomePage extends StatelessWidget {
                   const Gap(30),
 
                   // --- 🎯 Daily Quests ---
-                  _buildSectionTitle("ภารกิจประจำวัน")
-                      .animate().fade(delay: 400.ms).slideX(begin: -0.1),
+                  ValueListenableBuilder(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, _, __) => _buildSectionTitle(AppStrings.t('daily_quest'))
+                        .animate().fade(delay: 400.ms).slideX(begin: -0.1),
+                  ),
                   const Gap(15),
                   _buildDailyQuestList()
                       .animate().fade(delay: 500.ms).slideY(begin: 0.2),
@@ -54,8 +57,11 @@ class HomePage extends StatelessWidget {
                   const Gap(30),
 
                   // --- 🎨 Colorful Menu Grid ---
-                  _buildSectionTitle("โหมดฝึกฝน")
-                      .animate().fade(delay: 600.ms).slideX(begin: -0.1),
+                  ValueListenableBuilder(
+                    valueListenable: UserData.appLanguage,
+                    builder: (context, _, __) => _buildSectionTitle(AppStrings.t('practice_mode'))
+                        .animate().fade(delay: 600.ms).slideX(begin: -0.1),
+                  ),
                   const Gap(15),
                   GridView.count(
                     shrinkWrap: true,
@@ -82,7 +88,7 @@ class HomePage extends StatelessWidget {
                       ),
                       _buildColorfulCard(
                         context,
-                        title: "คอร์สเรียน",
+                        title: AppStrings.t('course'),
                         icon: Icons.map_rounded,
                         colors: [const Color(0xFF58CC02), const Color(0xFF46A302)], // เขียว
                         route: '/lessons',
@@ -90,7 +96,7 @@ class HomePage extends StatelessWidget {
                       // ปุ่มสถิติ (ขวาล่าง)
                       _buildColorfulCard(
                         context,
-                        title: "สถิติ", 
+                        title: AppStrings.t('stats'), 
                         icon: Icons.insights_rounded,
                         colors: [const Color(0xFFFF9600), const Color(0xFFDE7A00)], // ส้ม
                         route: '/stats',
@@ -318,7 +324,10 @@ class HomePage extends StatelessWidget {
           valueListenable: UserData.dailyXP,
           builder: (context, val, _) {
             double progress = (val / 50).clamp(0.0, 1.0); // เป้าหมาย 50 XP
-            return _buildQuestItem("เก็บ XP ให้ครบ 50 แต้ม", progress, "$val/50", Colors.orange);
+            return ValueListenableBuilder(
+              valueListenable: UserData.appLanguage,
+              builder: (context, _, __) => _buildQuestItem(AppStrings.t('collect_xp_quest'), progress, "$val/50", Colors.orange),
+            );
           }
         ),
         const Gap(12),
@@ -327,7 +336,10 @@ class HomePage extends StatelessWidget {
           valueListenable: UserData.dailyVocabAdded,
           builder: (context, val, _) {
             double progress = (val / 5).clamp(0.0, 1.0); // เป้าหมาย 5 คำ
-            return _buildQuestItem("เพิ่มคำศัพท์ใหม่ 5 คำ", progress, "$val/5", Colors.blue);
+            return ValueListenableBuilder(
+              valueListenable: UserData.appLanguage,
+              builder: (context, _, __) => _buildQuestItem(AppStrings.t('add_vocab_quest'), progress, "$val/5", Colors.blue),
+            );
           }
         ),
       ],
@@ -365,7 +377,10 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
                 const Gap(4),
-                Text("${(progress * 100).toInt()}% เสร็จสิ้น", style: GoogleFonts.kanit(fontSize: 12, color: Colors.grey)),
+                ValueListenableBuilder(
+                  valueListenable: UserData.appLanguage,
+                  builder: (context, _, __) => Text("${(progress * 100).toInt()}% ${AppStrings.t('completed')}", style: GoogleFonts.kanit(fontSize: 12, color: Colors.grey)),
+                ),
               ],
             ),
           ),

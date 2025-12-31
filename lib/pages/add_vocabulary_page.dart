@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../user_data.dart';
+import '../app_strings.dart';
 
 class AddVocabularyPage extends StatefulWidget {
   const AddVocabularyPage({super.key});
@@ -81,7 +82,10 @@ class _AddVocabularyPageState extends State<AddVocabularyPage> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
-        title: Text('เพิ่มคำศัพท์ใหม่', style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445))),
+        title: ValueListenableBuilder(
+          valueListenable: UserData.appLanguage,
+          builder: (context, _, __) => Text(AppStrings.t('add_new_vocabulary'), style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF2B3445))),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
