@@ -120,17 +120,14 @@ class UserData {
     dailyVocabAdded.value = prefs.getInt(_keyDailyVocab) ?? 0;
 
     // Load Settings
-    // อ่านภาษาจากอุปกรณ์ (device locale) ถ้ายังไม่เคยตั้งค่า
-    String? savedLanguage = prefs.getString(_keyLanguage);
-    if (savedLanguage == null) {
-      // อ่านภาษาจากอุปกรณ์
-      String deviceLocale = ui.PlatformDispatcher.instance.locale.languageCode;
-      // รองรับเฉพาะ th และ en (ถ้าเป็นภาษาอื่นให้ใช้ th เป็น default)
-      savedLanguage = (deviceLocale == 'th' || deviceLocale == 'en') ? deviceLocale : 'th';
-      // บันทึกค่าเริ่มต้นจาก device locale
-      await prefs.setString(_keyLanguage, savedLanguage);
-    }
-    appLanguage.value = savedLanguage;
+    // อ่านภาษาจากอุปกรณ์ (device locale) และอัปเดตทุกครั้งที่เปิดแอป
+    String deviceLocale = ui.PlatformDispatcher.instance.locale.languageCode;
+    // รองรับเฉพาะ th และ en (ถ้าเป็นภาษาอื่นให้ใช้ th เป็น default)
+    String systemLanguage = (deviceLocale == 'th' || deviceLocale == 'en') ? deviceLocale : 'th';
+    // อัปเดตภาษาตามภาษาของระบบทุกครั้ง
+    appLanguage.value = systemLanguage;
+    // บันทึกค่าใหม่ลงใน SharedPreferences
+    await prefs.setString(_keyLanguage, systemLanguage);
     targetLanguage.value = prefs.getString(_keyTargetLanguage) ?? "JP";
     isDarkMode.value = prefs.getBool(_keyTheme) ?? false;
 

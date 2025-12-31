@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gap/gap.dart';
 import 'loading_plan_page.dart';
 import '../user_data.dart';
+import '../app_strings.dart';
 
 /// หน้า Onboarding ที่ถามข้อมูลผู้ใช้
 /// Flow: Onboarding Questions -> Loading Plan -> Sign Up/Login -> Home
@@ -35,15 +36,33 @@ class _OnboardingQuestionsPageState extends State<OnboardingQuestionsPage> {
     super.dispose();
   }
 
-  final List<String> _nativeLanguages = ['ไทย', 'English', '日本語', '中文', '한국어'];
-  final List<String> _targetLanguages = ['日本語 (ญี่ปุ่น)', 'English (อังกฤษ)', '中文 (จีน)', '한국어 (เกาหลี)'];
-  final List<String> _levels = ['Beginner (เริ่มต้น)', 'Intermediate (ปานกลาง)', 'Advanced (ขั้นสูง)'];
+  List<String> get _nativeLanguages => [
+    AppStrings.t('onboard_native_thai'),
+    AppStrings.t('onboard_native_english'),
+    AppStrings.t('onboard_native_japanese'),
+    AppStrings.t('onboard_native_chinese'),
+    AppStrings.t('onboard_native_korean'),
+  ];
+  List<String> get _targetLanguages => [
+    AppStrings.t('onboard_target_japanese'),
+    AppStrings.t('onboard_target_english'),
+    AppStrings.t('onboard_target_chinese'),
+    AppStrings.t('onboard_target_korean'),
+  ];
+  List<String> get _levels => [
+    AppStrings.t('onboard_level_beginner'),
+    AppStrings.t('onboard_level_intermediate'),
+    AppStrings.t('onboard_level_advanced'),
+  ];
   final List<int> _dailyGoals = [5, 10, 15, 20, 30, 45, 60];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FD),
+    return ValueListenableBuilder<String>(
+      valueListenable: UserData.appLanguage,
+      builder: (context, lang, child) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFF8F9FD),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -127,7 +146,7 @@ class _OnboardingQuestionsPageState extends State<OnboardingQuestionsPage> {
                           ),
                         ),
                         child: Text(
-                          "ย้อนกลับ",
+                          AppStrings.t('onboard_back'),
                           style: GoogleFonts.kanit(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -144,7 +163,7 @@ class _OnboardingQuestionsPageState extends State<OnboardingQuestionsPage> {
                         ),
                       ),
                       child: Text(
-                        _currentStep == 3 ? "สร้างแผนการเรียน" : "ถัดไป",
+                        _currentStep == 3 ? AppStrings.t('onboard_create_plan') : AppStrings.t('onboard_next'),
                         style: GoogleFonts.kanit(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -159,6 +178,8 @@ class _OnboardingQuestionsPageState extends State<OnboardingQuestionsPage> {
           ],
         ),
       ),
+        );
+      },
     );
   }
 
@@ -217,7 +238,7 @@ class _OnboardingQuestionsPageState extends State<OnboardingQuestionsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "คุณพูดภาษาอะไร?",
+            AppStrings.t('onboard_what_language'),
             style: GoogleFonts.kanit(
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -226,7 +247,7 @@ class _OnboardingQuestionsPageState extends State<OnboardingQuestionsPage> {
           ),
           const Gap(8),
           Text(
-            "เลือกภาษาที่คุณใช้เป็นประจำ",
+            AppStrings.t('onboard_select_native_lang'),
             style: GoogleFonts.kanit(
               fontSize: 16,
               color: Colors.grey.shade600,
@@ -288,7 +309,7 @@ class _OnboardingQuestionsPageState extends State<OnboardingQuestionsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "อยากเรียนภาษาอะไร?",
+            AppStrings.t('onboard_what_learn'),
             style: GoogleFonts.kanit(
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -297,7 +318,7 @@ class _OnboardingQuestionsPageState extends State<OnboardingQuestionsPage> {
           ),
           const Gap(8),
           Text(
-            "เลือกภาษาที่คุณต้องการเรียนรู้",
+            AppStrings.t('onboard_select_target_lang'),
             style: GoogleFonts.kanit(
               fontSize: 16,
               color: Colors.grey.shade600,
@@ -359,7 +380,7 @@ class _OnboardingQuestionsPageState extends State<OnboardingQuestionsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "ระดับของคุณคือ?",
+            AppStrings.t('onboard_your_level'),
             style: GoogleFonts.kanit(
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -368,7 +389,7 @@ class _OnboardingQuestionsPageState extends State<OnboardingQuestionsPage> {
           ),
           const Gap(8),
           Text(
-            "เลือกระดับที่เหมาะสมกับคุณ",
+            AppStrings.t('onboard_select_level'),
             style: GoogleFonts.kanit(
               fontSize: 16,
               color: Colors.grey.shade600,
@@ -430,7 +451,7 @@ class _OnboardingQuestionsPageState extends State<OnboardingQuestionsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "เป้าหมายวันละกี่นาที?",
+            AppStrings.t('onboard_daily_goal'),
             style: GoogleFonts.kanit(
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -439,7 +460,7 @@ class _OnboardingQuestionsPageState extends State<OnboardingQuestionsPage> {
           ),
           const Gap(8),
           Text(
-            "เลือกเวลาที่คุณต้องการเรียนต่อวัน",
+            AppStrings.t('onboard_select_daily_goal'),
             style: GoogleFonts.kanit(
               fontSize: 16,
               color: Colors.grey.shade600,
@@ -482,7 +503,7 @@ class _OnboardingQuestionsPageState extends State<OnboardingQuestionsPage> {
                           ),
                         ),
                         Text(
-                          "นาที",
+                          AppStrings.t('onboard_minutes'),
                           style: GoogleFonts.kanit(
                             fontSize: 12,
                             color: isSelected ? Colors.white70 : Colors.grey.shade600,
